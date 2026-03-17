@@ -9,8 +9,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.EnchantmentMenu;
 
 public class VSQEnchantmentScreen extends AbstractContainerScreen<EnchantmentMenu> {
-    private static final Identifier GUI_TEXTURE =
-        Identifier.fromNamespaceAndPath("vsq", "textures/gui/containers/enchantment_table.png");
+    private static final Identifier GUI_TEXTURE = Identifier.fromNamespaceAndPath("vsq", "textures/gui/containers/enchantment_table.png");
+    private static final Identifier XP_ENABLED_SPRITE = Identifier.fromNamespaceAndPath("vsq", "textures/gui/containers/enchantment_table/xp_requirement_enabled.png");
+    private static final Identifier XP_DISABLED_SPRITE = Identifier.fromNamespaceAndPath("vsq", "textures/gui/sprites/containers/enchantment_table/xp_requirement_disabled.png");
+    private static final Identifier BLOCKS_ENABLED_SPRITE = Identifier.fromNamespaceAndPath("vsq", "textures/gui/containers/enchantment_table/block_requirement_enabled.png");
+    private static final Identifier BLOCKS_DISABLED_SPRITE = Identifier.fromNamespaceAndPath("vsq", "textures/gui/sprites/containers/enchantment_table/block_requirement_disabled.png");
     private static final int TEX_W = 256;
     private static final int TEX_H = 256;
 
@@ -32,14 +35,17 @@ public class VSQEnchantmentScreen extends AbstractContainerScreen<EnchantmentMen
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        int x0 = this.leftPos;
-        int y0 = this.topPos;
+        // int x0 = this.leftPos;
+        // int y0 = this.topPos;
+        int x = this.leftPos;
+        int y = this.topPos;
+
 
         guiGraphics.blit(
             RenderPipelines.GUI_TEXTURED,
             GUI_TEXTURE,
-            x0,
-            y0,
+            x,
+            y,
             0.0F,
             0.0F,
             this.imageWidth,
@@ -47,6 +53,8 @@ public class VSQEnchantmentScreen extends AbstractContainerScreen<EnchantmentMen
             TEX_W,
             TEX_H
         );
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, XP_ENABLED_SPRITE, x + 119, y + 35, 51, 18);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, BLOCKS_ENABLED_SPRITE, x + 119, y + 53, 51, 18);
     }
 
     @Override

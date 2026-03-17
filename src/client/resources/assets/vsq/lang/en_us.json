@@ -1,6 +1,10 @@
 {
   "key.category.vsq.controls": "Vanilla²",
   "vsq.gui.controls.vsq.keybinds.special_effect": "Special Effect",
+  "vsq.gui.container.enchantment_table.xp": "%s Levels",
+  "vsq.gui.container.enchantment_table.blocks": "%s Blocks",
+  "vsq.gui.container.enchantment_table.blocks.none": "No Blocks",
+  "vsq.gui.container.enchantment_table.xp.none": "No Levels",
   "vsq.attributes.mace_protection": "Mace Protection",
   "vsq.attributes.magic_protection": "Magic Protection",
   "vsq.attributes.dripstone_protection": "Dripstone Protection",

@@ -41,12 +41,15 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
 
     @Unique
     private ContainerLevelAccess vsq$access = ContainerLevelAccess.NULL;
+    @Unique
+    private final int VSQ$DUMMYLEVELREQUIREMENT = 69;
+    @Unique
+    private final int VSQ$DUMMYBLOCKREQUIREMENT = 4;
 
     @Unique
     private ServerPlayer vsq$serverPlayer;
 
-    @Unique
-    private int vsq$nearbyBlockCount;
+    @Unique private int vsq$nearbyBlockCount;
 
     @Unique
     private Player vsq$player;
@@ -91,30 +94,6 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
 
             this.vsq$nearbyBlockCount = this.vsq$countNearbyBlocks(level, tablePos);
         });
-    }
-
-    @Unique
-    private ItemStack vsq$createBookshelfDisplayStack() {
-        if (this.vsq$nearbyBlockCount <= 0) {
-            return ItemStack.EMPTY;
-        }
-
-        ItemStack stack = new ItemStack(Items.BOOKSHELF);
-        stack.setCount(Math.min(this.vsq$nearbyBlockCount, stack.getMaxStackSize()));
-        stack.set(DataComponents.ITEM_NAME, Component.literal(this.vsq$nearbyBlockCount + " Blocks"));
-        return stack;
-    }
-
-    @Unique
-    private ItemStack vsq$createLevelDisplayStack() {
-        if (this.vsq$player == null || this.vsq$player.experienceLevel <= 0) {
-            return ItemStack.EMPTY;
-        }
-
-        ItemStack stack = new ItemStack(Items.EXPERIENCE_BOTTLE);
-        stack.setCount(Math.min(this.vsq$player.experienceLevel, stack.getMaxStackSize()));
-        stack.set(DataComponents.ITEM_NAME, Component.literal(this.vsq$player.experienceLevel + " Levels"));
-        return stack;
     }
 
 
@@ -223,6 +202,40 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
                 EnchantmentMenuMixin.this.vsq$nearbyBlockCount = value;
             }
         });
+        this.addDataSlot(new DataSlot() {
+            @Override
+            public int get() {
+                return EnchantmentMenuMixin.this.VSQ$DUMMYLEVELREQUIREMENT;
+            }
+            public int getXP() {
+                return vsq$player.experienceLevel;
+            }
+            public boolean validate() {
+                return getXP() >= get();
+            }
+
+            @Override
+            public void set(int value) {
+                // Do nothing
+            }
+        });
+        this.addDataSlot(new DataSlot() {
+            @Override
+            public int get() {
+                return EnchantmentMenuMixin.this.VSQ$DUMMYBLOCKREQUIREMENT;
+            }
+            public int getBlocks() {
+                return EnchantmentMenuMixin.this.vsq$nearbyBlockCount;
+            }
+            public boolean validate() {
+                return getBlocks() >= get();
+            }
+
+            @Override
+            public void set(int value) {
+                // Do nothing
+            }
+        });
 
         this.addSlot(new Slot(this.enchantSlots, 0, 26, 23) {
             @Override
@@ -242,50 +255,6 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu {
         this.addSlot(new Slot(this.enchantSlots, 3, 62, 36));
         this.addSlot(new Slot(this.enchantSlots, 4, 98, 36));
         this.addSlot(new Slot(this.enchantSlots, 5, 80, 54));
-
-        this.addSlot(new Slot(this.enchantSlots, 6, 134, 54) {
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return false;
-            }
-
-            @Override
-            public ItemStack getItem() {
-                return EnchantmentMenuMixin.this.vsq$createLevelDisplayStack();
-            }
-
-            @Override
-            public boolean hasItem() {
-                return EnchantmentMenuMixin.this.vsq$player != null && EnchantmentMenuMixin.this.vsq$player.experienceLevel > 0;
-            }
-
-            @Override
-            public boolean mayPickup(Player player) {
-                return false;
-            }
-        });
-
-        this.addSlot(new Slot(this.enchantSlots, 7, 152, 54) {
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return false;
-            }
-
-            @Override
-            public ItemStack getItem() {
-                return EnchantmentMenuMixin.this.vsq$createBookshelfDisplayStack();
-            }
-
-            @Override
-            public boolean hasItem() {
-                return EnchantmentMenuMixin.this.vsq$nearbyBlockCount > 0;
-            }
-
-            @Override
-            public boolean mayPickup(Player player) {
-                return false;
-            }
-        });
 
         this.vsq$addPlayerSlots(playerInventory);
     }
