@@ -2,6 +2,7 @@ package blob.vanillasquared.main;
 
 import net.fabricmc.api.ClientModInitializer;
 import blob.vanillasquared.main.gui.settings.controls.VSQControls;
+import blob.vanillasquared.main.network.handlers.EnchantmentBlockCountsPayloadHandler;
 import blob.vanillasquared.main.network.handlers.KeybindInputHandler;
 
 public class VanillaSquaredClient implements ClientModInitializer {
@@ -10,6 +11,7 @@ public class VanillaSquaredClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         VSQControls.initialize();
+        EnchantmentBlockCountsPayloadHandler.register();
         KeybindInputHandler.register();
     }
 }

@@ -126,18 +126,27 @@ public class VSQEnchantmentScreen extends AbstractContainerScreen<EnchantmentMen
         this.vsq$blockRequirement = properties != null ? properties.vsq$getBlockRequirement() : 0;
         this.vsq$xpHovered = this.vsq$isXpHovered(mouseX, mouseY);
         this.vsq$blocksHovered = this.vsq$isBlocksHovered(mouseX, mouseY);
-        Component buttonTooltip = null;
+        List<Component> buttonTooltip = null;
 
         if (this.vsq$xpHovered && this.vsq$levelRequirement != -1) {
             Component xpTooltip = Component.translatable("vsq.gui.container.enchantment_table.xp.tooltip", this.vsq$playerLevel, this.vsq$levelRequirement).withStyle(ChatFormatting.GRAY);
             if (this.vsq$playerLevel < this.vsq$levelRequirement) {
                 xpTooltip = xpTooltip.copy().withStyle(ChatFormatting.RED);
             }
-            buttonTooltip = xpTooltip;
+            buttonTooltip = List.of(xpTooltip);
         } else if (this.vsq$blocksHovered && this.vsq$blockRequirement != -1) {
-            Component blocksTooltip = Component.translatable("vsq.gui.container.enchantment_table.blocks.tooltip", "", "", "").withStyle(ChatFormatting.GRAY);
+            List<Component> blocksTooltip = properties != null ? properties.vsq$getDetectedBlockTooltipLines() : List.of();
+            if (blocksTooltip.isEmpty()) {
+                blocksTooltip = List.of(Component.translatable("vsq.gui.container.enchantment_table.blocks.tooltip.none"));
+            }
             if (this.vsq$blockAmount < this.vsq$blockRequirement) {
-                blocksTooltip = blocksTooltip.copy().withStyle(ChatFormatting.RED);
+                blocksTooltip = blocksTooltip.stream()
+                    .map(line -> (Component) line.copy().withStyle(ChatFormatting.RED))
+                    .toList();
+            } else {
+                blocksTooltip = blocksTooltip.stream()
+                    .map(line -> (Component) line.copy().withStyle(ChatFormatting.GRAY))
+                    .toList();
             }
             buttonTooltip = blocksTooltip;
         }
@@ -147,7 +156,8 @@ public class VSQEnchantmentScreen extends AbstractContainerScreen<EnchantmentMen
 
         this.renderTooltip(guiGraphics, mouseX, mouseY);
         if (buttonTooltip != null) {
-            List<ClientTooltipComponent> tooltipLines = this.font.split(buttonTooltip, 180).stream()
+            List<ClientTooltipComponent> tooltipLines = buttonTooltip.stream()
+                .flatMap(line -> this.font.split(line, 180).stream())
                 .map(ClientTooltipComponent::create)
                 .toList();
             guiGraphics.renderTooltip(this.font, tooltipLines, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);

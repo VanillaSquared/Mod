@@ -1,6 +1,8 @@
 package blob.vanillasquared.mixin.client.gui;
 
 import blob.vanillasquared.main.gui.enchantment.VSQEnchantmentScreen;
+import blob.vanillasquared.main.network.handlers.EnchantmentBlockCountsPayloadHandler;
+import blob.vanillasquared.main.world.inventory.VSQEnchantmentMenuProperties;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.network.chat.Component;
@@ -29,6 +31,9 @@ public abstract class MenuScreensMixin {
         EnchantmentMenu menu = MenuType.ENCHANTMENT.create(containerId, minecraft.player.getInventory());
         if (menu == null) {
             return;
+        }
+        if (menu instanceof VSQEnchantmentMenuProperties properties) {
+            EnchantmentBlockCountsPayloadHandler.applyCached(containerId, properties);
         }
         VSQEnchantmentScreen screen = new VSQEnchantmentScreen(menu, minecraft.player.getInventory(), title);
 

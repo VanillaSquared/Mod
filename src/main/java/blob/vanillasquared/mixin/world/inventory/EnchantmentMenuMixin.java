@@ -1,9 +1,12 @@
 package blob.vanillasquared.mixin.world.inventory;
 
+import blob.vanillasquared.main.network.payload.EnchantmentBlockCountsPayload;
 import blob.vanillasquared.main.world.inventory.VSQEnchantmentMenuProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -30,7 +34,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -70,6 +76,8 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu impleme
     private int vsq$playerLevel;
     @Unique
     private int vsq$nearbyBlockCount;
+    @Unique
+    private List<Component> vsq$detectedBlockTooltipLines = List.of();
 
     @Unique
     private Player vsq$player;
@@ -126,7 +134,6 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu impleme
         if (playerInventory.player instanceof ServerPlayer serverPlayer) {
             this.vsq$serverPlayer = serverPlayer;
         }
-        this.vsq$debugNearbyBlocks(playerInventory, access);
         this.vsq$updateNearbyBlockCount();
     }
 
@@ -146,14 +153,17 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu impleme
                 return;
             }
 
-            this.vsq$nearbyBlockCount = this.vsq$countNearbyBlocks(level, tablePos);
+            Map<Identifier, Integer> detectedBlocks = this.vsq$collectDetectedBlocks(level, tablePos);
+            this.vsq$nearbyBlockCount = detectedBlocks.values().stream().mapToInt(Integer::intValue).sum();
+            this.vsq$sendDetectedBlockCounts(detectedBlocks);
         });
     }
 
 
     @Unique
-    private int vsq$countNearbyBlocks(Level level, BlockPos tablePos) {
-        int total = 0;
+    private Map<Identifier, Integer> vsq$collectDetectedBlocks(Level level, BlockPos tablePos) {
+        Map<Identifier, Integer> counts = new TreeMap<>(Identifier::compareTo);
+
         for (int dx = -2; dx <= 2; dx++) {
             for (int dz = -2; dz <= 2; dz++) {
                 for (int dy = 0; dy <= 2; dy++) {
@@ -166,72 +176,39 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu impleme
                     if (state.isAir()) {
                         continue;
                     }
-                    total++;
+
+                    Block block = state.getBlock();
+                    if (!this.vsq$matchesDummyDebugBlock(block)) {
+                        continue;
+                    }
+
+                    Identifier key = BuiltInRegistries.BLOCK.getKey(block);
+                    if (key == null) {
+                        continue;
+                    }
+
+                    counts.merge(key, 1, Integer::sum);
                 }
             }
         }
-        return total;
+
+        return counts;
     }
 
     @Unique
-    private void vsq$debugNearbyBlocks(Inventory playerInventory, ContainerLevelAccess access) {
-        if (!(playerInventory.player instanceof ServerPlayer serverPlayer)) {
+    private void vsq$sendDetectedBlockCounts(Map<Identifier, Integer> detectedBlocks) {
+        if (this.vsq$serverPlayer == null) {
             return;
         }
 
-        access.execute((Level level, BlockPos tablePos) -> {
-            if (level.isClientSide()) {
-                return;
-            }
+        List<Identifier> blockIds = new ArrayList<>(detectedBlocks.size());
+        List<Integer> counts = new ArrayList<>(detectedBlocks.size());
+        for (Map.Entry<Identifier, Integer> entry : detectedBlocks.entrySet()) {
+            blockIds.add(entry.getKey());
+            counts.add(entry.getValue());
+        }
 
-            Map<String, Integer> counts = new TreeMap<>();
-
-            for (int dx = -2; dx <= 2; dx++) {
-                for (int dz = -2; dz <= 2; dz++) {
-                    for (int dy = 0; dy <= 2; dy++) {
-                        BlockPos pos = tablePos.offset(dx, dy, dz);
-                        if (pos.equals(tablePos)) {
-                            continue;
-                        }
-
-                        BlockState state = level.getBlockState(pos);
-                        if (state.isAir()) {
-                            continue;
-                        }
-
-                        Block block = state.getBlock();
-                        if (!this.vsq$matchesDummyDebugBlock(block)) {
-                            continue;
-                        }
-
-                        var key = BuiltInRegistries.BLOCK.getKey(block);
-                        if (key == null) {
-                            continue;
-                        }
-
-                        String name = key.getPath().toUpperCase(Locale.ROOT);
-                        counts.merge(name, 1, Integer::sum);
-                    }
-                }
-            }
-
-            if (counts.isEmpty()) {
-                serverPlayer.sendSystemMessage(Component.literal("[vsq debug] Enchantment Table matching blocks: none"));
-                return;
-            }
-
-            StringBuilder sb = new StringBuilder("[vsq debug] Enchantment Table matching blocks (dummy list, r=2, y+0..2): ");
-            boolean first = true;
-            for (var entry : counts.entrySet()) {
-                if (!first) {
-                    sb.append(", ");
-                }
-                first = false;
-                sb.append(entry.getKey()).append(" x").append(entry.getValue());
-            }
-
-            serverPlayer.sendSystemMessage(Component.literal(sb.toString()));
-        });
+        ServerPlayNetworking.send(this.vsq$serverPlayer, new EnchantmentBlockCountsPayload(this.containerId, blockIds, counts));
     }
 
     @Unique
@@ -315,5 +292,40 @@ public abstract class EnchantmentMenuMixin extends AbstractContainerMenu impleme
     @Override
     public int vsq$getBlockRequirement() {
         return this.vsq$properties.get(VSQ$PROPERTY_BLOCK_REQUIREMENT);
+    }
+
+    @Override
+    public List<Component> vsq$getDetectedBlockTooltipLines() {
+        return this.vsq$detectedBlockTooltipLines;
+    }
+
+    @Override
+    public void vsq$setDetectedBlockCounts(int containerId, List<Identifier> blockIds, List<Integer> counts) {
+        if (this.containerId != containerId) {
+            return;
+        }
+
+        if (blockIds.size() != counts.size()) {
+            this.vsq$detectedBlockTooltipLines = List.of();
+            return;
+        }
+
+        List<Component> tooltipLines = new ArrayList<>(blockIds.size());
+        for (int i = 0; i < blockIds.size(); i++) {
+            Identifier blockId = blockIds.get(i);
+            int count = counts.get(i);
+            Block block = BuiltInRegistries.BLOCK.getValue(blockId);
+            if (block == null) {
+                block = Blocks.AIR;
+            }
+            MutableComponent line = Component.translatable(
+                    "vsq.gui.container.enchantment_table.blocks.tooltip.entry",
+                    count,
+                    block.getName()
+            );
+            tooltipLines.add(line);
+        }
+
+        this.vsq$detectedBlockTooltipLines = Collections.unmodifiableList(tooltipLines);
     }
 }
