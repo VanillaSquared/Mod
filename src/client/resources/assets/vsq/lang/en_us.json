@@ -11,5 +11,6 @@
   "vsq.attributes.mace_protection": "Mace Protection",
   "vsq.attributes.magic_protection": "Magic Protection",
   "vsq.attributes.dripstone_protection": "Dripstone Protection",
-  "vsq.attributes.spear_protection": "Spear Protection"
+  "vsq.attributes.spear_protection": "Spear Protection",
+  "vsq.enchantment.aqua_affinity.description": "Increases mining speed underwater."
 }
