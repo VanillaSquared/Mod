@@ -2,7 +2,11 @@ package blob.vanillasquared.main.world.inventory;
 
 import blob.vanillasquared.main.network.payload.EnchantingRecipeBookSyncPayload;
 import blob.vanillasquared.main.network.payload.EnchantingRecipeStatePayload;
-import blob.vanillasquared.main.world.recipe.enchanting.*;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingBlockRequirement;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingIngredient;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipe;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeInput;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -81,9 +85,6 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         this.addSlot(new Slot(this.enchantSlots, EnchantingSlotLayout.FIRST_CROSS_SLOT + 2, 98, 36));
         this.addSlot(new Slot(this.enchantSlots, EnchantingSlotLayout.FIRST_CROSS_SLOT + 3, 80, 54));
         EnchantingMenuSharedLogic.addPlayerSlots(this::addSlot, playerInventory);
-        if (SYNTHETIC_OPEN_POS.equals(blockPos)) {
-            this.selectedDisplayId = -1;
-        }
         if (this.player instanceof ServerPlayer serverPlayer) {
             this.vsq$sendRecipeBookSync(serverPlayer, true);
             this.vsq$refresh(serverPlayer);
@@ -95,7 +96,7 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         if (!(this.player instanceof ServerPlayer serverPlayer)) {
             return PostPlaceAction.NOTHING;
         }
-        if (!(recipe.value() instanceof EnchantingRecipe enchantingRecipe)) {
+        if (!(recipe.value() instanceof EnchantingRecipe)) {
             return PostPlaceAction.NOTHING;
         }
         Optional<Integer> displayId = this.displayRecipes.entrySet().stream()
@@ -307,16 +308,16 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         if (!this.vsq$returnInputsToInventory()) {
             return false;
         }
-        if (!this.vsq$fillRecipeSlot(EnchantingSlotLayout.INPUT_SLOT, recipe.input(), false)) {
+        if (!this.vsq$fillRecipeSlot(EnchantingSlotLayout.INPUT_SLOT, recipe.input())) {
             this.vsq$returnInputsToInventory();
             return false;
         }
-        if (!this.vsq$fillRecipeSlot(EnchantingSlotLayout.MATERIAL_SLOT, recipe.material(), false)) {
+        if (!this.vsq$fillRecipeSlot(EnchantingSlotLayout.MATERIAL_SLOT, recipe.material())) {
             this.vsq$returnInputsToInventory();
             return false;
         }
         for (int index = 0; index < recipe.ingredients().size(); index++) {
-            if (!this.vsq$fillRecipeSlot(EnchantingSlotLayout.FIRST_CROSS_SLOT + index, recipe.ingredients().get(index), false)) {
+            if (!this.vsq$fillRecipeSlot(EnchantingSlotLayout.FIRST_CROSS_SLOT + index, recipe.ingredients().get(index))) {
                 this.vsq$returnInputsToInventory();
                 return false;
             }
@@ -339,7 +340,7 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         return true;
     }
 
-    private boolean vsq$fillRecipeSlot(int slotIndex, blob.vanillasquared.main.world.recipe.enchanting.EnchantingIngredient ingredient, boolean fromContainerOnly) {
+    private boolean vsq$fillRecipeSlot(int slotIndex, EnchantingIngredient ingredient) {
         ItemStack extracted = this.vsq$extractMatchingItems(ingredient);
         if (extracted.isEmpty()) {
             return false;
@@ -348,7 +349,7 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         return true;
     }
 
-    private ItemStack vsq$extractMatchingItems(blob.vanillasquared.main.world.recipe.enchanting.EnchantingIngredient ingredient) {
+    private ItemStack vsq$extractMatchingItems(EnchantingIngredient ingredient) {
         Inventory inventory = this.player.getInventory();
         ItemStack extracted = ItemStack.EMPTY;
         int remaining = ingredient.count();
@@ -397,10 +398,6 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         this.blockRequirement = recipe.blocks().stream().mapToInt(EnchantingBlockRequirement::count).sum();
         this.nearbyBlockCount = this.blockRequirement == -1 ? -1 : blockDisplay.stream().mapToInt(EnchantingRecipe.BlockRequirementDisplay::placedCount).sum();
         this.vsq$sendDetectedBlockCounts(blockDisplay, this.levelRequirement, this.blockRequirement, player.experienceLevel, recipe.name(), recipe.description(), player);
-    }
-
-    private Optional<RecipeHolder<EnchantingRecipe>> vsq$getDisplayedRecipe(EnchantingRecipeInput input, Map<Identifier, Integer> detectedBlocks, net.minecraft.core.HolderLookup.Provider registries) {
-        return this.vsq$getPreviewRecipe(input, registries);
     }
 
     private Optional<RecipeHolder<EnchantingRecipe>> vsq$getPreviewRecipe(EnchantingRecipeInput input, net.minecraft.core.HolderLookup.Provider registries) {
@@ -460,7 +457,7 @@ public class VSQEnchantmentMenu extends RecipeBookMenu implements VSQEnchantment
         return true;
     }
 
-    private boolean vsq$consumeAvailable(List<ItemStack> available, blob.vanillasquared.main.world.recipe.enchanting.EnchantingIngredient ingredient) {
+    private boolean vsq$consumeAvailable(List<ItemStack> available, EnchantingIngredient ingredient) {
         int remaining = ingredient.count();
         for (ItemStack stack : available) {
             if (stack.isEmpty() || !ingredient.matchesIgnoringCount(stack)) {

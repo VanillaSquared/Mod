@@ -61,7 +61,7 @@ public record EnchantingBlockRequirement(
         int total = 0;
         for (Map.Entry<Identifier, Integer> entry : countedBlocks.entrySet()) {
             Block block = BuiltInRegistries.BLOCK.getValue(entry.getKey());
-            if (block != null && block.builtInRegistryHolder().is(tagKey)) {
+            if (block.defaultBlockState().is(tagKey)) {
                 total += entry.getValue();
             }
         }
