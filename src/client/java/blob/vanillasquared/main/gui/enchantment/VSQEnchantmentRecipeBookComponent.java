@@ -26,6 +26,13 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 public class VSQEnchantmentRecipeBookComponent extends RecipeBookComponent<VSQEnchantmentMenu> {
+    private static final WidgetSprites FILTER_BUTTON_SPRITES = new WidgetSprites(
+            net.minecraft.resources.Identifier.withDefaultNamespace("recipe_book/filter_enabled"),
+            net.minecraft.resources.Identifier.withDefaultNamespace("recipe_book/filter_disabled"),
+            net.minecraft.resources.Identifier.withDefaultNamespace("recipe_book/filter_enabled_highlighted"),
+            net.minecraft.resources.Identifier.withDefaultNamespace("recipe_book/filter_disabled_highlighted")
+    );
+
     private static final List<TabInfo> TABS = List.of(
             new TabInfo(SearchRecipeBookCategory.CRAFTING),
             new TabInfo(vsq$enchanted(Items.IRON_SWORD), Optional.empty(), VSQEnchantmentRecipeBookCategories.WEAPONS),
@@ -40,7 +47,7 @@ public class VSQEnchantmentRecipeBookComponent extends RecipeBookComponent<VSQEn
 
     @Override
     protected WidgetSprites getFilterButtonTextures() {
-        return RECIPE_BUTTON_SPRITES;
+        return FILTER_BUTTON_SPRITES;
     }
 
     @Override
