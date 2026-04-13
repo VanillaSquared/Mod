@@ -1,7 +1,7 @@
 package blob.vanillasquared.mixin.world.inventory;
 
 import blob.vanillasquared.main.world.inventory.VSQEnchantmentMenu;
-import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider;
+import blob.vanillasquared.main.world.inventory.VSQEnchantmentMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -30,7 +30,7 @@ public abstract class EnchantingTableBlockMixin {
         Component title = level.getBlockEntity(pos) instanceof EnchantingTableBlockEntity blockEntity
                 ? blockEntity.getName()
                 : Component.translatable("container.enchant");
-        cir.setReturnValue(new ExtendedMenuProvider<>() {
+        cir.setReturnValue(new VSQEnchantmentMenuProvider() {
             @Override
             public BlockPos getScreenOpeningData(net.minecraft.server.level.ServerPlayer player) {
                 return pos;

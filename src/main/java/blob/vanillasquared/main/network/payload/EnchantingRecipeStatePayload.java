@@ -21,22 +21,44 @@ public record EnchantingRecipeStatePayload(
         int levelRequirement,
         int blockRequirement,
         Component recipeName,
-        Component recipeDescription
+        Component recipeDescription,
+        boolean selectionCleared
 ) implements CustomPacketPayload {
     public static final Type<EnchantingRecipeStatePayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath(VanillaSquared.MOD_ID, "enchanting_recipe_state"));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantingRecipeStatePayload> CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT, EnchantingRecipeStatePayload::containerId,
-            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), EnchantingRecipeStatePayload::blockIds,
-            ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list()), EnchantingRecipeStatePayload::blockCounts,
-            ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list()), EnchantingRecipeStatePayload::requiredBlockCounts,
-            ByteBufCodecs.VAR_INT, EnchantingRecipeStatePayload::playerLevel,
-            ByteBufCodecs.VAR_INT, EnchantingRecipeStatePayload::levelRequirement,
-            ByteBufCodecs.VAR_INT, EnchantingRecipeStatePayload::blockRequirement,
-            ComponentSerialization.TRUSTED_STREAM_CODEC, EnchantingRecipeStatePayload::recipeName,
-            ComponentSerialization.TRUSTED_STREAM_CODEC, EnchantingRecipeStatePayload::recipeDescription,
-            EnchantingRecipeStatePayload::new
-    );
+    private static final StreamCodec<RegistryFriendlyByteBuf, List<Identifier>> IDENTIFIER_LIST_CODEC = Identifier.STREAM_CODEC.apply(ByteBufCodecs.list());
+    private static final StreamCodec<RegistryFriendlyByteBuf, List<Integer>> VAR_INT_LIST_CODEC = ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list());
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantingRecipeStatePayload> CODEC = new StreamCodec<>() {
+        @Override
+        public EnchantingRecipeStatePayload decode(RegistryFriendlyByteBuf buf) {
+            int containerId = ByteBufCodecs.VAR_INT.decode(buf);
+            List<Identifier> blockIds = IDENTIFIER_LIST_CODEC.decode(buf);
+            List<Integer> blockCounts = VAR_INT_LIST_CODEC.decode(buf);
+            List<Integer> requiredBlockCounts = VAR_INT_LIST_CODEC.decode(buf);
+            int playerLevel = ByteBufCodecs.VAR_INT.decode(buf);
+            int levelRequirement = ByteBufCodecs.VAR_INT.decode(buf);
+            int blockRequirement = ByteBufCodecs.VAR_INT.decode(buf);
+            Component recipeName = ComponentSerialization.TRUSTED_STREAM_CODEC.decode(buf);
+            Component recipeDescription = ComponentSerialization.TRUSTED_STREAM_CODEC.decode(buf);
+            boolean selectionCleared = ByteBufCodecs.BOOL.decode(buf);
+            return new EnchantingRecipeStatePayload(containerId, blockIds, blockCounts, requiredBlockCounts, playerLevel, levelRequirement, blockRequirement, recipeName, recipeDescription, selectionCleared);
+        }
+
+        @Override
+        public void encode(RegistryFriendlyByteBuf buf, EnchantingRecipeStatePayload value) {
+            ByteBufCodecs.VAR_INT.encode(buf, value.containerId);
+            IDENTIFIER_LIST_CODEC.encode(buf, value.blockIds);
+            VAR_INT_LIST_CODEC.encode(buf, value.blockCounts);
+            VAR_INT_LIST_CODEC.encode(buf, value.requiredBlockCounts);
+            ByteBufCodecs.VAR_INT.encode(buf, value.playerLevel);
+            ByteBufCodecs.VAR_INT.encode(buf, value.levelRequirement);
+            ByteBufCodecs.VAR_INT.encode(buf, value.blockRequirement);
+            ComponentSerialization.TRUSTED_STREAM_CODEC.encode(buf, value.recipeName);
+            ComponentSerialization.TRUSTED_STREAM_CODEC.encode(buf, value.recipeDescription);
+            ByteBufCodecs.BOOL.encode(buf, value.selectionCleared);
+        }
+    };
 
     public EnchantingRecipeStatePayload {
         blockIds = List.copyOf(blockIds);
