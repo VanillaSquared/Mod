@@ -202,7 +202,7 @@ public record EnchantingIngredient(Ingredient ingredient, int count, Identifier 
     }
 
     private static boolean vsq$isSupportedEnchantingItem(Item item) {
-        return item != Items.AIR;
+        return item != Items.AIR && item.components().has(DataComponents.ENCHANTABLE);
     }
 
     private static <T> T vsq$removeCount(DynamicOps<T> ops, T input) {

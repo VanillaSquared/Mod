@@ -6,6 +6,7 @@ import blob.vanillasquared.main.network.handlers.EnchantingRecipeBookSyncPayload
 import blob.vanillasquared.main.network.handlers.EnchantingRecipeStatePayloadHandler;
 import blob.vanillasquared.main.network.handlers.KeybindInputHandler;
 import blob.vanillasquared.main.world.inventory.VSQMenuTypes;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.gui.screens.MenuScreens;
 import blob.vanillasquared.main.gui.enchantment.VSQEnchantmentScreen;
 
@@ -19,5 +20,7 @@ public class VanillaSquaredClient implements ClientModInitializer {
         EnchantingRecipeBookSyncPayloadHandler.register();
         KeybindInputHandler.register();
         MenuScreens.register(VSQMenuTypes.ENCHANTING, VSQEnchantmentScreen::new);
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
+                EnchantingRecipeStatePayloadHandler.clearAll());
     }
 }

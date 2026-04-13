@@ -77,6 +77,10 @@ public final class EnchantingRecipeStatePayloadHandler {
         PENDING_RECIPE_STATES.remove(containerId);
     }
 
+    public static void clearAll() {
+        PENDING_RECIPE_STATES.clear();
+    }
+
     private record CachedRecipeState(
             List<Identifier> blockIds,
             List<Integer> blockCounts,
