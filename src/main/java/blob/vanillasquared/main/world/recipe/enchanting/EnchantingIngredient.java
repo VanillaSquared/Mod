@@ -207,7 +207,7 @@ public record EnchantingIngredient(Ingredient ingredient, int count, Identifier 
                     .orElse(ItemStack.EMPTY);
         }
 
-        return TAG_PREVIEW_CACHE.computeIfAbsent(this.tagId, EnchantingIngredient::resolveTagPreview);
+        return TAG_PREVIEW_CACHE.computeIfAbsent(this.tagId, EnchantingIngredient::resolveTagPreview).copy();
     }
 
     private static ItemStack resolveTagPreview(Identifier tagId) {
