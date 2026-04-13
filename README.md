@@ -51,7 +51,7 @@ Restart your server.
 - Minecraft 26.1.2
 - Fabric Loader 0.18.4 or newer
 - Fabric API 0.145.4 plus 26.1.2
-- Java 21
+- Java 25
 - Gradle via wrapper scripts included in the repo
 
 ### 📋 Runtime Requirements
