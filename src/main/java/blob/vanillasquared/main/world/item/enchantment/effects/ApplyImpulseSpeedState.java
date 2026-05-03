@@ -12,6 +12,10 @@ public final class ApplyImpulseSpeedState {
     }
 
     public static ApplyEntityImpulse remember(ApplyEntityImpulse effect, double speed) {
+        if (speed == 1.0D) {
+            return effect;
+        }
+
         synchronized (SPEEDS) {
             SPEEDS.put(effect, speed);
         }

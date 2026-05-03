@@ -182,7 +182,8 @@ public final class LungingState {
     }
 
     private static Activation activation(ServerLevel level, UUID uuid) {
-        return levelState(level).get(uuid);
+        Map<UUID, Activation> activations = STATES.get(level);
+        return activations == null ? null : activations.get(uuid);
     }
 
     private static Map<UUID, Activation> levelState(ServerLevel level) {
