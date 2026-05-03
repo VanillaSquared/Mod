@@ -248,21 +248,19 @@ public final class LungingState {
                     .getOrThrow(ResourceKey.create(net.minecraft.core.registries.Registries.ENCHANTMENT, this.enchantmentId));
         }
 
-        private EnchantedItemInUse itemInUse(ServerLevel level) {
-            return new EnchantedItemInUse(this.stackSnapshot.copy(), this.slot, this.resolveOwner(level), ignored -> {});
-        }
-
         private void applyEntityHits(ServerLevel level, LivingEntity owner, Vec3 start, Vec3 end) {
             AABB bounds = sweptBounds(owner.getBoundingBox(), start, end);
             List<LivingEntity> touched = level.getEntitiesOfClass(LivingEntity.class, bounds, entity ->
-                    entity.isAlive() && entity != owner && entity.getBoundingBox().intersects(bounds)
+                    entity.isAlive() && entity != owner
             );
             if (touched.isEmpty()) {
                 return;
             }
 
+            Holder<Enchantment> enchantment = resolveEnchantment(level);
+            EnchantedItemInUse itemInUse = new EnchantedItemInUse(this.stackSnapshot.copy(), this.slot, owner, ignored -> {});
             List<TargetedConditionalEffect<EnchantmentEntityEffect>> effects =
-                    VSQEnchantments.profileEffects(this.stackSnapshot, resolveEnchantment(level), VSQEnchantmentEffects.IN_LUNGING);
+                    VSQEnchantments.profileEffects(this.stackSnapshot, enchantment, VSQEnchantmentEffects.IN_LUNGING);
             for (LivingEntity target : touched) {
                 if (!this.impactedEntities.add(target.getUUID())) {
                     continue;
@@ -276,7 +274,7 @@ public final class LungingState {
                     TargetedConditionalEffect<EnchantmentEntityEffect> effect = effects.get(index);
                     if (!shouldApplyToEnchantedTarget(effect.enchanted())
                             || !effect.matches(context)
-                            || !SpecialEnchantmentCooldowns.shouldRunSpecialEffect(level, this.stackSnapshot, resolveEnchantment(level).value(), VSQEnchantmentEffects.IN_LUNGING, index, owner)) {
+                            || !SpecialEnchantmentCooldowns.shouldRunSpecialEffect(level, this.stackSnapshot, enchantment.value(), VSQEnchantmentEffects.IN_LUNGING, index, owner)) {
                         continue;
                     }
 
@@ -286,7 +284,7 @@ public final class LungingState {
                     }
                     ChannelingState.pushExecutionDamageSource(damageSource);
                     try {
-                        effect.effect().apply(level, this.enchantmentLevel, this.itemInUse(level), affected, affected.position());
+                        effect.effect().apply(level, this.enchantmentLevel, itemInUse, affected, affected.position());
                     } finally {
                         ChannelingState.popExecutionDamageSource();
                     }

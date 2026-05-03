@@ -2,11 +2,11 @@ package blob.vanillasquared.main.world.item.enchantment.effects;
 
 import net.minecraft.world.item.enchantment.effects.ApplyEntityImpulse;
 
+import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 public final class ApplyImpulseSpeedState {
-    private static final Map<ApplyEntityImpulse, Double> SPEEDS = new WeakHashMap<>();
+    private static final Map<ApplyEntityImpulse, Double> SPEEDS = new IdentityHashMap<>();
 
     private ApplyImpulseSpeedState() {
     }
