@@ -32,9 +32,7 @@
                 {
                   "type": "minecraft:play_sound",
                   "pitch": 1,
-                  "sound": [
-                    "vsq:dash"
-                  ],
+                  "sound": "vsq:dash",
                   "volume": 1
                 },
                 {

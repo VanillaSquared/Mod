@@ -80,9 +80,7 @@ public final class LungingState {
         owner.setDeltaMovement(direction.scale(speedPerTick));
         owner.hurtMarked = true;
         owner.needsSync = true;
-        if (owner instanceof ServerPlayer serverPlayer) {
-            VSQNetworking.sendLungingState(serverPlayer, true);
-        }
+        VSQNetworking.sendLungingState(player, true);
     }
 
     public static void tick(ServerLevel level) {
@@ -329,6 +327,6 @@ public final class LungingState {
     }
 
     static boolean shouldApplyToEnchantedTarget(EnchantmentTarget target) {
-        return target == EnchantmentTarget.ATTACKER;
+        return target == EnchantmentTarget.ATTACKER || target == EnchantmentTarget.DAMAGING_ENTITY;
     }
 }
