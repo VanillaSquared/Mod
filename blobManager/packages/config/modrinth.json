@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "network": {
+    "baseUrl": "https://api.modrinth.com",
+    "testEndpoint": "/",
+    "timeoutSeconds": 30,
+    "headers": {
+      "Accept": "application/json",
+      "User-Agent": "vanilla-squared-blobManager/1.0.0"
+    }
+  }
+}
