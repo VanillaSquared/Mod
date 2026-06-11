@@ -15,7 +15,7 @@
               "type": "minecraft:multiply",
               "factor": {
                 "type": "minecraft:linear",
-                "base": 1.15,
+                "base": 1.5,
                 "per_level_above_first": 0
               }
             },
@@ -28,7 +28,7 @@
             "effect": {
               "type": "minecraft:damage_entity",
               "damage_type": "minecraft:magic",
-              "max_damage": 4.5,
+              "max_damage": 4,
               "min_damage": 2
             },
             "enchanted": "attacker",
