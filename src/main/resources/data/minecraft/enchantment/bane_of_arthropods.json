@@ -23,7 +23,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
               }
             },
             "id": "minecraft_smash_damage_per_fallen_block_0",
@@ -53,7 +53,7 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                    "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
                   }
                 },
                 {
@@ -103,7 +103,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
               }
             },
             "id": "minecraft_damage_0",
@@ -133,7 +133,7 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                    "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
                   }
                 },
                 {
@@ -186,14 +186,14 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                    "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
                   }
                 },
                 {
                   "condition": "minecraft:entity_properties",
                   "entity": "direct_attacker",
                   "predicate": {
-                    "type": "#minecraft:arrows"
+                    "entity_type": "#minecraft:arrows"
                   }
                 }
               ]
@@ -225,14 +225,14 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                    "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
                   }
                 },
                 {
                   "condition": "minecraft:entity_properties",
                   "entity": "direct_attacker",
                   "predicate": {
-                    "type": "#minecraft:arrows"
+                    "entity_type": "#minecraft:arrows"
                   }
                 }
               ]
@@ -276,7 +276,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
               }
             },
             "id": "minecraft_damage_fishing_0",
@@ -303,7 +303,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_bane_of_arthropods"
+                "entity_type": "#minecraft:sensitive_to_bane_of_arthropods"
               }
             },
             "id": "minecraft_post_attack_fishing_0",

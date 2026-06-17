@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -21,8 +21,8 @@
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 20.0,
-                "min": 5.0
+                "max": 20,
+                "min": 5
               },
               "options": "#minecraft:on_random_loot"
             }
@@ -42,8 +42,8 @@
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 20.0,
-                "min": 10.0
+                "max": 20,
+                "min": 10
               },
               "options": "#minecraft:on_random_loot"
             }
@@ -58,8 +58,8 @@
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 20.0,
-                "min": 10.0
+                "max": 20,
+                "min": 10
               },
               "options": "#minecraft:on_random_loot"
             }
@@ -87,7 +87,7 @@
           "name": "minecraft:diamond_block"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "minecraft:chests/trial_chambers/reward_ominous_rare"

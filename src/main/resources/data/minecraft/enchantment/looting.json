@@ -25,7 +25,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "attacker",
               "predicate": {
-                "type": "minecraft:player"
+                "entity_type": "minecraft:player"
               }
             },
             "id": "minecraft_equipment_drops_0",
@@ -68,7 +68,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "attacker",
               "predicate": {
-                "type": "minecraft:player"
+                "entity_type": "minecraft:player"
               }
             },
             "id": "minecraft_equipment_drops_0",
@@ -166,7 +166,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "attacker",
               "predicate": {
-                "type": "minecraft:player"
+                "entity_type": "minecraft:player"
               }
             },
             "id": "minecraft_equipment_drops_0",

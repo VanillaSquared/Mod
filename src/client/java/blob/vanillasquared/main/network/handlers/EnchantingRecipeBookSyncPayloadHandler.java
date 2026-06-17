@@ -73,7 +73,7 @@ public final class EnchantingRecipeBookSyncPayloadHandler {
         CONTAINER_DISPLAY_IDS.put(payload.containerId(), List.copyOf(displayIds));
         CONTAINER_DISPLAY_LOOKUP.put(payload.containerId(), Map.copyOf(displayLookup));
         recipeBook.rebuildCollections();
-        if (minecraft.screen instanceof RecipeUpdateListener recipeUpdateListener
+        if (minecraft.gui.screen() instanceof RecipeUpdateListener recipeUpdateListener
                 && minecraft.player.containerMenu.containerId == payload.containerId()) {
             recipeUpdateListener.recipesUpdated();
         }

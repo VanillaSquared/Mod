@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -50,7 +51,7 @@ public abstract class ItemStackMixin {
         }
 
         VSQEnchantmentTooltipState.onTooltip(stack);
-        boolean leftAltHeld = Minecraft.getInstance().screen != null
+        boolean leftAltHeld = Minecraft.getInstance().gui.screen() != null
                 && org.lwjgl.glfw.GLFW.glfwGetKey(Minecraft.getInstance().getWindow().handle(), GLFW.GLFW_KEY_LEFT_ALT) == GLFW.GLFW_PRESS;
 
         List<Component> filtered = new ArrayList<>(cir.getReturnValue());
@@ -90,10 +91,11 @@ public abstract class ItemStackMixin {
 
     @Unique
     private static boolean vsq$hasColor(Component line, ChatFormatting formatting) {
-        if (line.getStyle().getColor() == null || formatting.getColor() == null) {
+        TextColor color = TextColor.fromLegacyFormat(formatting);
+        if (line.getStyle().getColor() == null || color == null) {
             return false;
         }
-        return line.getStyle().getColor().getValue() == formatting.getColor();
+        return line.getStyle().getColor().equals(color);
     }
 
     @Unique

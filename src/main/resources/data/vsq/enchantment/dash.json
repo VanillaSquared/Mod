@@ -47,7 +47,7 @@
                     "base": 2.5,
                     "per_level_above_first": 1.35
                   },
-                  "speed": 6.0
+                  "speed": 6
                 }
               ]
             },
@@ -99,9 +99,7 @@
                         "condition": "minecraft:entity_properties",
                         "entity": "this",
                         "predicate": {
-                          "type_specific": {
-                            "type": "minecraft:player"
-                          }
+                          "type_specific/player": {}
                         }
                       }
                     },
@@ -109,8 +107,7 @@
                       "condition": "minecraft:entity_properties",
                       "entity": "this",
                       "predicate": {
-                        "type_specific": {
-                          "type": "minecraft:player",
+                        "type_specific/player": {
                           "gamemode": [
                             "creative"
                           ]
@@ -121,8 +118,7 @@
                       "condition": "minecraft:entity_properties",
                       "entity": "this",
                       "predicate": {
-                        "type_specific": {
-                          "type": "minecraft:player",
+                        "type_specific/player": {
                           "food": {
                             "level": {
                               "min": 7

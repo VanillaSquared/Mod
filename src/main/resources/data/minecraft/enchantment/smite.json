@@ -23,7 +23,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_smite"
+                "entity_type": "#minecraft:sensitive_to_smite"
               }
             },
             "id": "minecraft_smash_damage_per_fallen_block_0",
@@ -65,7 +65,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_smite"
+                "entity_type": "#minecraft:sensitive_to_smite"
               }
             },
             "id": "minecraft_damage_0",
@@ -110,14 +110,14 @@
                   "condition": "minecraft:entity_properties",
                   "entity": "this",
                   "predicate": {
-                    "type": "#minecraft:sensitive_to_smite"
+                    "entity_type": "#minecraft:sensitive_to_smite"
                   }
                 },
                 {
                   "condition": "minecraft:entity_properties",
                   "entity": "direct_attacker",
                   "predicate": {
-                    "type": "#minecraft:arrows"
+                    "entity_type": "#minecraft:arrows"
                   }
                 }
               ]
@@ -161,7 +161,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "#minecraft:sensitive_to_smite"
+                "entity_type": "#minecraft:sensitive_to_smite"
               }
             },
             "id": "minecraft_damage_fishing_0",
