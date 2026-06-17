@@ -8,3 +8,4 @@
 - Make sure that Vanilla features still work!
 - You can use `./gradlew runClient` to test if Minecraft starts, which you should also do btw and `./gradlew runClient --warning-mode all` is a more detailed. After the game started, you obviously need to close it after it finished starting.
 - If you add new tags, then translate them in en\_us to avoid a fabric api warning.
+- Do not change the mods version in `gradle.properties` or `frabric.mod.json`
