@@ -8,7 +8,7 @@ import blob.vanillasquared.main.world.item.enchantment.effects.VSQChannelingEffe
 import blob.vanillasquared.main.world.particle.particles.LightningBoltParticleOptions;
 import blob.vanillasquared.util.api.references.RegistryReference;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleType;
@@ -21,7 +21,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -573,7 +573,7 @@ public final class ChannelingState {
     }
 
     private static void strikeLightningAt(ServerLevel level, Vec3 position) {
-        LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level, EntitySpawnReason.EVENT);
+        LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(level, EntitySpawnReason.EVENT);
         if (bolt == null) {
             return;
         }

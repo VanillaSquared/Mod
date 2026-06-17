@@ -23,7 +23,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "direct_attacker",
               "predicate": {
-                "type": "#minecraft:arrows"
+                "entity_type": "#minecraft:arrows"
               }
             },
             "id": "minecraft_knockback_0",

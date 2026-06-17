@@ -2,7 +2,7 @@
   "type": "minecraft:chest",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -11,8 +11,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 4.0
+                "max": 10,
+                "min": 4
               },
               "function": "minecraft:set_count"
             }
@@ -27,8 +27,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
-                "min": 8.0
+                "max": 12,
+                "min": 8
               },
               "function": "minecraft:set_count"
             }
@@ -43,8 +43,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 12.0,
-                "min": 4.0
+                "max": 12,
+                "min": 4
               },
               "function": "minecraft:set_count"
             },
@@ -63,8 +63,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 3.0,
-                "min": 2.0
+                "max": 3,
+                "min": 2
               },
               "function": "minecraft:set_count"
             }
@@ -77,14 +77,14 @@
           "functions": [
             {
               "add": false,
-              "count": 1.0,
+              "count": 1,
               "function": "minecraft:set_count"
             },
             {
               "amplifier": {
                 "type": "minecraft:uniform",
-                "max": 4.0,
-                "min": 2.0
+                "max": 4,
+                "min": 2
               },
               "function": "minecraft:set_ominous_bottle_amplifier"
             }
@@ -92,7 +92,7 @@
           "name": "minecraft:ominous_bottle"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "minecraft:chests/trial_chambers/reward_ominous_common"

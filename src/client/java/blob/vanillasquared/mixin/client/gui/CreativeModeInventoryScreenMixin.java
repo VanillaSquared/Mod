@@ -54,7 +54,7 @@ public abstract class CreativeModeInventoryScreenMixin {
 
     @Unique
     private static boolean vsq$isLeftAltHeld() {
-        return Minecraft.getInstance().screen != null
+        return Minecraft.getInstance().gui.screen() != null
                 && GLFW.glfwGetKey(Minecraft.getInstance().getWindow().handle(), GLFW.GLFW_KEY_LEFT_ALT) == GLFW.GLFW_PRESS;
     }
 }

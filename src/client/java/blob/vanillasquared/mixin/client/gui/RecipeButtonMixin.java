@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class RecipeButtonMixin {
     @Inject(method = "getTooltipText", at = @At("HEAD"), cancellable = true)
     private void vsq$replaceEnchantingRecipeBookTooltip(ItemStack displayStack, CallbackInfoReturnable<List<Component>> cir) {
-        if (!(Minecraft.getInstance().screen instanceof VSQEnchantmentScreen)) {
+        if (!(Minecraft.getInstance().gui.screen() instanceof VSQEnchantmentScreen)) {
             return;
         }
         cir.setReturnValue(List.of(displayStack.getHoverName()));

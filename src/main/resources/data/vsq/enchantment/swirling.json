@@ -15,7 +15,7 @@
             "enchanted": "attacker",
             "effect": {
               "type": "vsq:begin_swirling",
-              "duration": 4.0,
+              "duration": 4,
               "warmup_duration": 0.4,
               "radius": 3.5,
               "hit_interval": 4,

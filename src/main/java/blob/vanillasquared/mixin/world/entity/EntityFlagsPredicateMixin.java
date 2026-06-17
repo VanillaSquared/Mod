@@ -3,7 +3,7 @@ package blob.vanillasquared.mixin.world.entity;
 import blob.vanillasquared.main.world.effect.LungingState;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.criterion.EntityFlagsPredicate;
+import net.minecraft.advancements.predicates.entity.EntityFlagsPredicate;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Final;

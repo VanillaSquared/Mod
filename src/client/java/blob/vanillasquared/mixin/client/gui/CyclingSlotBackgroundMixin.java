@@ -41,7 +41,7 @@ public abstract class CyclingSlotBackgroundMixin {
     @Unique
     private boolean vsq$hasGhostSlot() {
         Minecraft minecraft = Minecraft.getInstance();
-        if (!(minecraft.screen instanceof AbstractRecipeBookScreen<?> recipeBookScreen)) {
+        if (!(minecraft.gui.screen() instanceof AbstractRecipeBookScreen<?> recipeBookScreen)) {
             return false;
         }
 

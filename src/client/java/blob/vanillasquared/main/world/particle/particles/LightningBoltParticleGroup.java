@@ -17,7 +17,7 @@ public class LightningBoltParticleGroup extends ParticleGroup<LightningBoltParti
     @Override
     public ParticleGroupRenderState extractRenderState(Frustum frustum, Camera camera, float tickDelta) {
         List<ParticleGroupRenderState> states = new ArrayList<>();
-        for (LightningBoltParticle particle : this.getAll()) {
+        for (LightningBoltParticle particle : this.particles) {
             if (frustum.isVisible(particle.getBoundingBox())) {
                 states.add(particle.createRenderState(camera, tickDelta));
             }
