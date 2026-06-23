@@ -44,7 +44,7 @@ public abstract class OverlayRecipeButtonMixin extends AbstractWidget implements
     private boolean isCraftable;
     @Shadow
     @Final
-    private OverlayRecipeComponent this$0;
+    OverlayRecipeComponent this$0;
 
     @Unique
     private List<List<ItemStack>> vsq$enchantingIngredients;
