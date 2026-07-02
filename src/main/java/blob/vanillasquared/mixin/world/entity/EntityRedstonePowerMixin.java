@@ -5,8 +5,6 @@ import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
@@ -24,17 +22,15 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
     private int vsq$previousRedstonePower;
     @Unique
     private int vsq$redstonePower;
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void vsq$initEntityRedstonePower(EntityType<?> entityType, Level level, CallbackInfo ci) {
-        this.vsq$previousRedstoneSourceBounds = null;
-        this.vsq$previousRedstonePower = 0;
-        this.vsq$redstonePower = 0;
-    }
+    @Unique
+    private boolean vsq$redstonePowerCounted;
+    @Unique
+    private ServerLevel vsq$redstonePowerCountedLevel;
 
     @Inject(method = "load", at = @At("TAIL"))
     private void vsq$loadEntityRedstonePower(ValueInput input, CallbackInfo ci) {
         this.vsq$redstonePower = Mth.clamp(input.getIntOr(VSQEntityRedstonePower.POWER_REDSTONE_KEY, 0), 0, 15);
+        this.vsq$reconcileRedstonePowerCount();
     }
 
     @Inject(method = "saveWithoutId", at = @At("TAIL"))
@@ -52,11 +48,13 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
     @Override
     public void vsq$setRedstonePower(int power) {
         this.vsq$redstonePower = Mth.clamp(power, 0, 15);
+        this.vsq$reconcileRedstonePowerCount();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void vsq$tickEntityRedstonePower(CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
+        this.vsq$reconcileRedstonePowerCount();
         if (!(entity.level() instanceof ServerLevel level)) {
             return;
         }
@@ -85,17 +83,44 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
     @Inject(method = "onRemoval", at = @At("TAIL"))
     private void vsq$removeEntityRedstonePower(Entity.RemovalReason reason, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
-        if (!(entity.level() instanceof ServerLevel level)) {
-            return;
+        if (entity.level() instanceof ServerLevel level) {
+            if (this.vsq$previousRedstonePower > 0 && this.vsq$previousRedstoneSourceBounds != null) {
+                VSQEntityRedstonePower.updateNeighbors(level, this.vsq$previousRedstoneSourceBounds);
+            } else if (VSQEntityRedstonePower.getPower(entity) > 0) {
+                VSQEntityRedstonePower.updateNeighbors(level, entity.getBoundingBox());
+            }
         }
 
-        if (this.vsq$previousRedstonePower > 0 && this.vsq$previousRedstoneSourceBounds != null) {
-            VSQEntityRedstonePower.updateNeighbors(level, this.vsq$previousRedstoneSourceBounds);
-        } else if (VSQEntityRedstonePower.getPower(entity) > 0) {
-            VSQEntityRedstonePower.updateNeighbors(level, entity.getBoundingBox());
-        }
-
+        this.vsq$unregisterRedstonePowerCount();
         this.vsq$previousRedstoneSourceBounds = null;
         this.vsq$previousRedstonePower = 0;
+    }
+
+    @Unique
+    private void vsq$reconcileRedstonePowerCount() {
+        Entity entity = (Entity) (Object) this;
+        if (this.vsq$redstonePower > 0 && !entity.isRemoved() && entity.level() instanceof ServerLevel level) {
+            if (!this.vsq$redstonePowerCounted) {
+                VSQEntityRedstonePower.incrementPoweredEntityCount(level);
+                this.vsq$redstonePowerCounted = true;
+                this.vsq$redstonePowerCountedLevel = level;
+            } else if (this.vsq$redstonePowerCountedLevel != level) {
+                this.vsq$unregisterRedstonePowerCount();
+                VSQEntityRedstonePower.incrementPoweredEntityCount(level);
+                this.vsq$redstonePowerCounted = true;
+                this.vsq$redstonePowerCountedLevel = level;
+            }
+        } else {
+            this.vsq$unregisterRedstonePowerCount();
+        }
+    }
+
+    @Unique
+    private void vsq$unregisterRedstonePowerCount() {
+        if (this.vsq$redstonePowerCounted && this.vsq$redstonePowerCountedLevel != null) {
+            VSQEntityRedstonePower.decrementPoweredEntityCount(this.vsq$redstonePowerCountedLevel);
+        }
+        this.vsq$redstonePowerCounted = false;
+        this.vsq$redstonePowerCountedLevel = null;
     }
 }

@@ -19,11 +19,30 @@ public final class VSQEntityRedstonePower {
         return 0;
     }
 
+    public static boolean hasPoweredEntities(ServerLevel level) {
+        return level instanceof VSQEntityRedstonePowerLevelAccess access && access.vsq$getPoweredEntityCount() > 0;
+    }
+
+    public static void incrementPoweredEntityCount(ServerLevel level) {
+        if (level instanceof VSQEntityRedstonePowerLevelAccess access) {
+            access.vsq$incrementPoweredEntityCount();
+        }
+    }
+
+    public static void decrementPoweredEntityCount(ServerLevel level) {
+        if (level instanceof VSQEntityRedstonePowerLevelAccess access) {
+            access.vsq$decrementPoweredEntityCount();
+        }
+    }
+
     public static int getSignal(ServerLevel level, BlockPos pos) {
+        if (!hasPoweredEntities(level)) {
+            return 0;
+        }
+
         AABB blockBounds = new AABB(pos);
         int signal = 0;
-        for (Entity entity : level.getEntities((Entity) null, blockBounds,
-                entity -> !entity.isRemoved() && entity.getBoundingBox().intersects(blockBounds))) {
+        for (Entity entity : level.getEntities((Entity) null, blockBounds, entity -> !entity.isRemoved())) {
             signal = Math.max(signal, getPower(entity));
             if (signal >= 15) {
                 return 15;

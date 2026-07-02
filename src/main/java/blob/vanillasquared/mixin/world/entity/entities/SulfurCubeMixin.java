@@ -93,12 +93,9 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     }
 
     @Inject(method = "customServerAiStep", at = @At("TAIL"))
-    private void vsq$updateRedstonePower(ServerLevel level, CallbackInfo ci) {
+    private void vsq$customServerAiStep(ServerLevel level, CallbackInfo ci) {
         this.vsq$setRedstonePowerForContent();
-    }
 
-    @Inject(method = "customServerAiStep", at = @At("TAIL"))
-    private void vsq$tickBreeding(ServerLevel level, CallbackInfo ci) {
         if (this.getAge() != 0) {
             this.vsq$resetLove();
             return;
