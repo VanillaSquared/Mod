@@ -6,25 +6,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.SignalGetter;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(SignalGetter.class)
-public abstract class SignalGetterMixin {
-    @Inject(method = "getSignal", at = @At("RETURN"), cancellable = true)
-    private void vsq$getEntityRedstoneSignal(BlockPos pos, Direction direction, CallbackInfoReturnable<Integer> cir) {
-        SignalGetter signalGetter = (SignalGetter) (Object) this;
-        if (signalGetter instanceof ServerLevel level) {
-            cir.setReturnValue(Math.max(cir.getReturnValue(), VSQEntityRedstonePower.getSignal(level, pos)));
-        }
+@Mixin(ServerLevel.class)
+public abstract class SignalGetterMixin implements SignalGetter {
+    @Override
+    public int getSignal(BlockPos pos, Direction direction) {
+        int signal = SignalGetter.super.getSignal(pos, direction);
+        return Math.max(signal, VSQEntityRedstonePower.getSignal((ServerLevel) (Object) this, pos));
     }
 
-    @Inject(method = "getDirectSignal", at = @At("RETURN"), cancellable = true)
-    private void vsq$getDirectEntityRedstoneSignal(BlockPos pos, Direction direction, CallbackInfoReturnable<Integer> cir) {
-        SignalGetter signalGetter = (SignalGetter) (Object) this;
-        if (signalGetter instanceof ServerLevel level) {
-            cir.setReturnValue(Math.max(cir.getReturnValue(), VSQEntityRedstonePower.getSignal(level, pos)));
-        }
+    @Override
+    public int getDirectSignal(BlockPos pos, Direction direction) {
+        int signal = SignalGetter.super.getDirectSignal(pos, direction);
+        return Math.max(signal, VSQEntityRedstonePower.getSignal((ServerLevel) (Object) this, pos));
     }
 }

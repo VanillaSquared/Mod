@@ -55,8 +55,10 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
 
     @Override
     public void vsq$setRedstonePower(int power) {
+        int previousPower = this.vsq$redstonePower;
         this.vsq$redstonePower = Mth.clamp(power, 0, 15);
         this.vsq$reconcileRedstonePowerCount();
+        this.vsq$notifyRedstonePowerChange(previousPower);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -104,6 +106,31 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
         this.vsq$unregisterRedstonePowerCount();
         this.vsq$previousRedstoneSourceBounds = null;
         this.vsq$previousRedstonePower = 0;
+    }
+
+    @Unique
+    private void vsq$notifyRedstonePowerChange(int previousPower) {
+        if (previousPower == this.vsq$redstonePower) {
+            return;
+        }
+
+        Entity entity = (Entity) (Object) this;
+        if (!(entity.level() instanceof ServerLevel level)) {
+            return;
+        }
+
+        AABB currentBounds = entity.getBoundingBox();
+        if (previousPower > 0) {
+            VSQEntityRedstonePower.updateNeighbors(level,
+                    this.vsq$previousRedstoneSourceBounds != null ? this.vsq$previousRedstoneSourceBounds : currentBounds);
+        }
+        if (this.vsq$redstonePower > 0) {
+            VSQEntityRedstonePower.updateNeighbors(level, currentBounds);
+            this.vsq$previousRedstoneSourceBounds = currentBounds;
+        } else {
+            this.vsq$previousRedstoneSourceBounds = null;
+        }
+        this.vsq$previousRedstonePower = this.vsq$redstonePower;
     }
 
     @Unique
