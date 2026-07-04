@@ -49,6 +49,8 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Unique
     private int vsq$breedTime;
     @Unique
+    private int vsq$lastResolvedContentRedstonePower = -1;
+    @Unique
     @Nullable
     private ServerPlayer vsq$loveCause;
 
@@ -138,7 +140,12 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Unique
     private void vsq$setRedstonePowerForContent() {
         ItemStack bodyItem = this.getItemBySlot(EquipmentSlot.BODY);
-        ((VSQEntityRedstonePowerAccess) this).vsq$setRedstonePower(bodyItem.is(Items.REDSTONE_BLOCK) ? 15 : 0);
+        int redstonePower = bodyItem.is(Items.REDSTONE_BLOCK) ? 15 : 0;
+        if (redstonePower == this.vsq$lastResolvedContentRedstonePower) {
+            return;
+        }
+        this.vsq$lastResolvedContentRedstonePower = redstonePower;
+        ((VSQEntityRedstonePowerAccess) this).vsq$setRedstonePower(redstonePower);
     }
 
     @Override

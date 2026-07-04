@@ -2,6 +2,7 @@ package blob.vanillasquared.main.world.redstone;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
@@ -54,7 +55,21 @@ public final class VSQEntityRedstonePower {
     public static void updateNeighbors(ServerLevel level, AABB sourceBounds) {
         AABB updateBounds = sourceBounds.inflate(1.0D);
         for (BlockPos pos : BlockPos.betweenClosed(updateBounds)) {
-            level.updateNeighborsAt(pos, Blocks.AIR, null);
+            if (vsq$isOnShell(pos, updateBounds)) {
+                level.updateNeighborsAt(pos, Blocks.REDSTONE_WIRE, null);
+            }
         }
+    }
+
+    private static boolean vsq$isOnShell(BlockPos pos, AABB bounds) {
+        int minX = Mth.floor(bounds.minX);
+        int minY = Mth.floor(bounds.minY);
+        int minZ = Mth.floor(bounds.minZ);
+        int maxX = Mth.floor(bounds.maxX);
+        int maxY = Mth.floor(bounds.maxY);
+        int maxZ = Mth.floor(bounds.maxZ);
+        return pos.getX() == minX || pos.getX() == maxX
+                || pos.getY() == minY || pos.getY() == maxY
+                || pos.getZ() == minZ || pos.getZ() == maxZ;
     }
 }

@@ -5,6 +5,9 @@ import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.monster.cubemob.SulfurCube;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
@@ -31,6 +34,10 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
     private void vsq$loadEntityRedstonePower(ValueInput input, CallbackInfo ci) {
         input.getInt(VSQEntityRedstonePower.POWER_REDSTONE_KEY)
                 .ifPresent(power -> this.vsq$redstonePower = Mth.clamp(power, 0, 15));
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof SulfurCube sulfurCube) {
+            this.vsq$redstonePower = sulfurCube.getItemBySlot(EquipmentSlot.BODY).is(Items.REDSTONE_BLOCK) ? 15 : 0;
+        }
         this.vsq$reconcileRedstonePowerCount();
     }
 
