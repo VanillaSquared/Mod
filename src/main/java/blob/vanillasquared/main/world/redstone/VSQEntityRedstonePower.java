@@ -55,7 +55,7 @@ public final class VSQEntityRedstonePower {
     public static void updateNeighbors(ServerLevel level, AABB sourceBounds) {
         AABB updateBounds = sourceBounds.inflate(1.0D);
         for (BlockPos pos : BlockPos.betweenClosed(updateBounds)) {
-            if (vsq$isOnShell(pos, updateBounds)) {
+            if (vsq$isOnShell(pos, updateBounds) || new AABB(pos).intersects(sourceBounds)) {
                 level.updateNeighborsAt(pos, Blocks.REDSTONE_WIRE, null);
             }
         }

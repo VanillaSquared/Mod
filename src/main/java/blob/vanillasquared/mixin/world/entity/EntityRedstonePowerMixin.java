@@ -92,7 +92,8 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
     @Inject(method = "onRemoval", at = @At("TAIL"))
     private void vsq$removeEntityRedstonePower(Entity.RemovalReason reason, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
-        if (entity.level() instanceof ServerLevel level) {
+        ServerLevel level = entity.level() instanceof ServerLevel currentLevel ? currentLevel : this.vsq$redstonePowerCountedLevel;
+        if (level != null) {
             if (this.vsq$previousRedstonePower > 0 && this.vsq$previousRedstoneSourceBounds != null) {
                 VSQEntityRedstonePower.updateNeighbors(level, this.vsq$previousRedstoneSourceBounds);
             } else if (VSQEntityRedstonePower.getPower(entity) > 0) {
