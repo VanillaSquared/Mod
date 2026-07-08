@@ -2,6 +2,8 @@ package blob.vanillasquared.mixin.world.entity.entities;
 
 import blob.vanillasquared.main.world.entity.SulfurCubeBreedingState;
 import blob.vanillasquared.main.world.item.VSQItems;
+import blob.vanillasquared.main.world.redstone.VSQContentRedstonePowerAccess;
+import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePower;
 import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import blob.vanillasquared.mixin.world.entity.CubeMobMoveControlAccessor;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,7 +21,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.monster.cubemob.SulfurCube;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
@@ -37,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.EnumSet;
 
 @Mixin(SulfurCube.class)
-public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBreedingState {
+public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBreedingState, VSQContentRedstonePowerAccess {
     @Unique
     private static final int VSQ_IN_LOVE_TIME = 600;
     @Unique
@@ -137,10 +138,10 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         this.vsq$setRedstonePowerForContent();
     }
 
-    @Unique
-    private void vsq$setRedstonePowerForContent() {
+    @Override
+    public void vsq$setRedstonePowerForContent() {
         ItemStack bodyItem = this.getItemBySlot(EquipmentSlot.BODY);
-        int redstonePower = bodyItem.is(Items.REDSTONE_BLOCK) ? 15 : 0;
+        int redstonePower = VSQEntityRedstonePower.getContentPower(bodyItem);
         if (redstonePower == this.vsq$lastResolvedContentRedstonePower) {
             return;
         }

@@ -33,7 +33,10 @@ public abstract class ServerLevelMixin implements VSQEntityRedstonePowerLevelAcc
     @Inject(method = "addEntity", at = @At("RETURN"))
     private void vsq$reconcileLoadedEntityRedstonePower(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue() && entity instanceof VSQEntityRedstonePowerAccess access) {
-            access.vsq$setRedstonePower(VSQEntityRedstonePower.getPower(entity));
+            access.vsq$reconcileRedstonePowerCount();
+            if (VSQEntityRedstonePower.getPower(entity) > 0) {
+                VSQEntityRedstonePower.updateNeighbors((ServerLevel) (Object) this, entity.getBoundingBox());
+            }
         }
     }
 
