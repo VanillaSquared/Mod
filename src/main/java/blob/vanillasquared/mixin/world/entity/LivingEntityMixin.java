@@ -2,6 +2,7 @@ package blob.vanillasquared.mixin.world.entity;
 
 import blob.vanillasquared.main.world.effect.VSQMobEffects;
 import blob.vanillasquared.main.world.effect.VoidedEffectState;
+import blob.vanillasquared.main.world.redstone.VSQContentRedstonePowerAccess;
 import blob.vanillasquared.main.world.util.DamageUtil;
 import blob.vanillasquared.main.world.item.enchantment.effects.EnchantmentPostBlockEffects;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -10,6 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.cubemob.SulfurCube;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -69,6 +71,13 @@ public abstract class LivingEntityMixin {
     @Inject(method = "tickEffects", at = @At("TAIL"))
     private void vsq$tickVoided(CallbackInfo ci) {
         VoidedEffectState.tick((LivingEntity) (Object) this);
+    }
+
+    @Inject(method = "setItemSlot", at = @At("TAIL"))
+    private void vsq$updateSulfurCubeContentRedstonePower(EquipmentSlot slot, ItemStack stack, CallbackInfo ci) {
+        if (slot == EquipmentSlot.BODY && (Object) this instanceof SulfurCube sulfurCube) {
+            ((VSQContentRedstonePowerAccess) sulfurCube).vsq$setRedstonePowerForContent();
+        }
     }
 
     @Inject(method = "addAdditionalSaveData(Lnet/minecraft/world/level/storage/ValueOutput;)V", at = @At("TAIL"))

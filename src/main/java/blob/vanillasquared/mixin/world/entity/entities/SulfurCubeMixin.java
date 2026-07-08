@@ -2,6 +2,9 @@ package blob.vanillasquared.mixin.world.entity.entities;
 
 import blob.vanillasquared.main.world.entity.SulfurCubeBreedingState;
 import blob.vanillasquared.main.world.item.VSQItems;
+import blob.vanillasquared.main.world.redstone.VSQContentRedstonePowerAccess;
+import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePower;
+import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import blob.vanillasquared.mixin.world.entity.CubeMobMoveControlAccessor;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -11,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -34,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.EnumSet;
 
 @Mixin(SulfurCube.class)
-public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBreedingState {
+public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBreedingState, VSQContentRedstonePowerAccess {
     @Unique
     private static final int VSQ_IN_LOVE_TIME = 600;
     @Unique
@@ -45,6 +49,8 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     private int vsq$inLove;
     @Unique
     private int vsq$breedTime;
+    @Unique
+    private int vsq$lastResolvedContentRedstonePower = -1;
     @Unique
     @Nullable
     private ServerPlayer vsq$loveCause;
@@ -90,7 +96,9 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     }
 
     @Inject(method = "customServerAiStep", at = @At("TAIL"))
-    private void vsq$tickBreeding(ServerLevel level, CallbackInfo ci) {
+    private void vsq$customServerAiStep(ServerLevel level, CallbackInfo ci) {
+        this.vsq$setRedstonePowerForContent();
+
         if (this.getAge() != 0) {
             this.vsq$resetLove();
             return;
@@ -127,6 +135,18 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void vsq$loadBreedingState(ValueInput input, CallbackInfo ci) {
         this.vsq$inLove = input.getIntOr("VSQInLove", 0);
+        this.vsq$setRedstonePowerForContent();
+    }
+
+    @Override
+    public void vsq$setRedstonePowerForContent() {
+        ItemStack bodyItem = this.getItemBySlot(EquipmentSlot.BODY);
+        int redstonePower = VSQEntityRedstonePower.getContentPower(bodyItem);
+        if (redstonePower == this.vsq$lastResolvedContentRedstonePower) {
+            return;
+        }
+        this.vsq$lastResolvedContentRedstonePower = redstonePower;
+        ((VSQEntityRedstonePowerAccess) this).vsq$setRedstonePower(redstonePower);
     }
 
     @Override
