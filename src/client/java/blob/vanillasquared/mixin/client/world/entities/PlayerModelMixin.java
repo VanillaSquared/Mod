@@ -37,11 +37,11 @@ public abstract class PlayerModelMixin extends HumanoidModel<AvatarRenderState> 
         ModelPart offArm = state.mainArm == HumanoidArm.LEFT ? this.rightArm : this.leftArm;
 
         this.body.yRot += (state.mainArm == HumanoidArm.LEFT ? -0.12F : 0.12F) * charge;
-        mainArm.xRot = Mth.lerp(charge, -0.55F, -1.50F - pulse * 0.05F);
-        mainArm.yRot = Mth.lerp(charge, state.mainArm == HumanoidArm.LEFT ? 0.18F : -0.18F, state.mainArm == HumanoidArm.LEFT ? 0.42F : -0.42F);
-        mainArm.zRot = Mth.lerp(charge, state.mainArm == HumanoidArm.LEFT ? -0.38F : 0.38F, state.mainArm == HumanoidArm.LEFT ? -0.01F : 0.01F);
-        offArm.xRot = Mth.lerp(charge, -0.35F, -1.50F - pulse * 0.05F);
-        offArm.yRot = Mth.lerp(charge, state.mainArm == HumanoidArm.LEFT ? -0.16F : 0.16F, state.mainArm == HumanoidArm.LEFT ? -0.42F : 0.42F);
-        offArm.zRot = Mth.lerp(charge, state.mainArm == HumanoidArm.LEFT ? 0.34F : -0.34F, state.mainArm == HumanoidArm.LEFT ? 0.01F : -0.01F);
+        mainArm.xRot = Mth.lerp(charge, mainArm.xRot, -1.50F - pulse * 0.05F);
+        mainArm.yRot = Mth.lerp(charge, mainArm.yRot, state.mainArm == HumanoidArm.LEFT ? 0.42F : -0.42F);
+        mainArm.zRot = Mth.lerp(charge, mainArm.zRot, state.mainArm == HumanoidArm.LEFT ? -0.01F : 0.01F);
+        offArm.xRot = Mth.lerp(charge, offArm.xRot, -1.50F - pulse * 0.05F);
+        offArm.yRot = Mth.lerp(charge, offArm.yRot, state.mainArm == HumanoidArm.LEFT ? -0.42F : 0.42F);
+        offArm.zRot = Mth.lerp(charge, offArm.zRot, state.mainArm == HumanoidArm.LEFT ? 0.01F : -0.01F);
     }
 }
