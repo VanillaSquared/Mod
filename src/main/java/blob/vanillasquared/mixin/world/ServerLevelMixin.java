@@ -15,13 +15,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BooleanSupplier;
 
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin implements VSQEntityRedstonePowerLevelAccess {
     @Unique
-    private final AtomicInteger vsq$poweredEntityCount = new AtomicInteger();
+    private int vsq$poweredEntityCount;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void vsq$tickChanneling(BooleanSupplier haveTime, CallbackInfo ci) {
@@ -42,16 +41,18 @@ public abstract class ServerLevelMixin implements VSQEntityRedstonePowerLevelAcc
 
     @Override
     public int vsq$getPoweredEntityCount() {
-        return this.vsq$poweredEntityCount.get();
+        return this.vsq$poweredEntityCount;
     }
 
     @Override
     public void vsq$incrementPoweredEntityCount() {
-        this.vsq$poweredEntityCount.incrementAndGet();
+        this.vsq$poweredEntityCount++;
     }
 
     @Override
     public void vsq$decrementPoweredEntityCount() {
-        this.vsq$poweredEntityCount.updateAndGet(count -> count > 0 ? count - 1 : 0);
+        if (this.vsq$poweredEntityCount > 0) {
+            this.vsq$poweredEntityCount--;
+        }
     }
 }

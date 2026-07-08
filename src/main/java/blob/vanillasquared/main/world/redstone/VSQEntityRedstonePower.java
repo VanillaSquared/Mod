@@ -1,11 +1,14 @@
 package blob.vanillasquared.main.world.redstone;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 
@@ -14,6 +17,10 @@ import java.util.Set;
 
 public final class VSQEntityRedstonePower {
     public static final String POWER_REDSTONE_KEY = "vsq:powerRedstone";
+    private static final TagKey<Item> SULFUR_CUBE_SWALLOWABLE = TagKey.create(
+            Registries.ITEM,
+            Identifier.fromNamespaceAndPath("minecraft", "sulfur_cube_swallowable")
+    );
 
     private VSQEntityRedstonePower() {
     }
@@ -26,7 +33,7 @@ public final class VSQEntityRedstonePower {
     }
 
     public static int getContentPower(ItemStack stack) {
-        return stack.is(Items.REDSTONE_BLOCK) ? 15 : 0;
+        return stack.is(SULFUR_CUBE_SWALLOWABLE) ? 15 : 0;
     }
 
     public static boolean hasPoweredEntities(ServerLevel level) {
@@ -62,14 +69,27 @@ public final class VSQEntityRedstonePower {
     }
 
     public static void updateNeighbors(ServerLevel level, AABB sourceBounds) {
-        int minX = Mth.floor(sourceBounds.minX) - 1;
-        int minY = Mth.floor(sourceBounds.minY) - 1;
-        int minZ = Mth.floor(sourceBounds.minZ) - 1;
-        int maxX = Mth.floor(sourceBounds.maxX) + 1;
-        int maxY = Mth.floor(sourceBounds.maxY) + 1;
-        int maxZ = Mth.floor(sourceBounds.maxZ) + 1;
+        int sourceMinX = Mth.floor(sourceBounds.minX);
+        int sourceMinY = Mth.floor(sourceBounds.minY);
+        int sourceMinZ = Mth.floor(sourceBounds.minZ);
+        int sourceMaxX = Mth.ceil(sourceBounds.maxX) - 1;
+        int sourceMaxY = Mth.ceil(sourceBounds.maxY) - 1;
+        int sourceMaxZ = Mth.ceil(sourceBounds.maxZ) - 1;
+        int minX = sourceMinX - 1;
+        int minY = sourceMinY - 1;
+        int minZ = sourceMinZ - 1;
+        int maxX = sourceMaxX + 1;
+        int maxY = sourceMaxY + 1;
+        int maxZ = sourceMaxZ + 1;
         Set<BlockPos> updatedPositions = new HashSet<>();
 
+        for (int x = sourceMinX; x <= sourceMaxX; x++) {
+            for (int y = sourceMinY; y <= sourceMaxY; y++) {
+                for (int z = sourceMinZ; z <= sourceMaxZ; z++) {
+                    updateNeighbor(level, updatedPositions, x, y, z);
+                }
+            }
+        }
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 updateNeighbor(level, updatedPositions, x, y, minZ);
