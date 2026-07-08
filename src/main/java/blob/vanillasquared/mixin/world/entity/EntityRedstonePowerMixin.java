@@ -142,10 +142,15 @@ public abstract class EntityRedstonePowerMixin implements VSQEntityRedstonePower
                 this.vsq$redstonePowerCounted = true;
                 this.vsq$redstonePowerCountedLevel = level;
             } else if (this.vsq$redstonePowerCountedLevel != level) {
+                if (this.vsq$previousRedstonePower > 0 && this.vsq$previousRedstoneSourceBounds != null && this.vsq$redstonePowerCountedLevel != null) {
+                    VSQEntityRedstonePower.updateNeighbors(this.vsq$redstonePowerCountedLevel, this.vsq$previousRedstoneSourceBounds);
+                }
                 this.vsq$unregisterRedstonePowerCount();
                 VSQEntityRedstonePower.incrementPoweredEntityCount(level);
                 this.vsq$redstonePowerCounted = true;
                 this.vsq$redstonePowerCountedLevel = level;
+                this.vsq$previousRedstoneSourceBounds = null;
+                this.vsq$previousRedstonePower = 0;
             }
         } else {
             this.vsq$unregisterRedstonePowerCount();
