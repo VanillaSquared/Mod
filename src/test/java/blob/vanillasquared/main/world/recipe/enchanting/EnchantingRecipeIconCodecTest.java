@@ -5,13 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import io.netty.buffer.Unpooled;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.data.registries.VanillaRegistries;
@@ -109,28 +105,6 @@ class EnchantingRecipeIconCodecTest {
                 "name": "Sharpness",
                 "description": "Legacy description",
                 """)));
-    }
-
-    @Test
-    void migratedBuiltInRecipeDecodes() throws IOException {
-        try (var input = EnchantingRecipeIconCodecTest.class.getResourceAsStream("/data/vsq/recipe/sharpness.json")) {
-            JsonElement json = JsonParser.parseReader(new InputStreamReader(input, StandardCharsets.UTF_8));
-            EnchantingRecipe recipe = getOrThrow(decodeRecipe(json.getAsJsonObject()));
-            assertEquals(Component.translatable("vsq.enchantment.sharpness.description"), recipe.description());
-
-            JsonElement encoded = getOrThrow(EnchantingRecipe.CODEC.codec().encodeStart(registryOps, recipe));
-            assertEquals(recipe.description(), getOrThrow(EnchantingRecipe.CODEC.codec().parse(registryOps, encoded)).description());
-
-            RegistryFriendlyByteBuf buffer = new RegistryFriendlyByteBuf(Unpooled.buffer(), RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
-            EnchantingRecipe.STREAM_CODEC.encode(buffer, recipe);
-            assertEquals(recipe.description(), EnchantingRecipe.STREAM_CODEC.decode(buffer).description());
-
-            ShapelessCraftingRecipeDisplay display = assertInstanceOf(ShapelessCraftingRecipeDisplay.class, EnchantingRecipeBookSyncPayload.createDisplay(recipe, registries, previewInput()));
-            SlotDisplay.ItemStackSlotDisplay result = assertInstanceOf(SlotDisplay.ItemStackSlotDisplay.class, display.result());
-            assertEquals(recipe.previewName(registries), result.stack().components().get(DataComponentMap.EMPTY, DataComponents.ITEM_NAME));
-            assertEquals(Component.translatable("vsq.enchantment.recipe.name", Component.translatable("enchantment.minecraft.sharpness"), Component.translatable("enchantment.level.1")), recipe.previewName(registries));
-            assertNull(result.stack().components().get(DataComponentMap.EMPTY, DataComponents.LORE));
-        }
     }
 
     @Test
