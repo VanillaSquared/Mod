@@ -85,7 +85,7 @@ public final class SwirlingClientState {
         Iterator<Map.Entry<Integer, Animation>> iterator = ANIMATIONS.entrySet().iterator();
         while (iterator.hasNext()) {
             Animation animation = iterator.next().getValue();
-            if (animation.finishing && animation.visualWeight(ageInTicks) <= 1.0E-3F) {
+            if ((animation.finishing || animation.paused) && animation.visualWeight(ageInTicks) <= 1.0E-3F) {
                 iterator.remove();
                 continue;
             }
