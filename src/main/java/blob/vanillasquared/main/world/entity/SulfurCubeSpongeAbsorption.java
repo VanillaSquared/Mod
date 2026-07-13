@@ -35,6 +35,7 @@ public final class SulfurCubeSpongeAbsorption {
             BlockState state = level.getBlockState(pos);
             FluidState fluidState = level.getFluidState(pos);
             if (!fluidState.is(FluidTags.WATER)) {
+                // SKIP prevents this node's neighbors from being queued, matching vanilla SpongeBlock traversal.
                 return BlockPos.TraversalNodeStatus.SKIP;
             }
 

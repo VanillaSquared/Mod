@@ -73,6 +73,8 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Unique
     private int vsq$spongeAbsorbedWater;
     @Unique
+    private boolean vsq$changingSpongeInternally;
+    @Unique
     @Nullable
     private BlockPos vsq$lastSpongePosition;
     @Unique
@@ -185,8 +187,22 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
 
     @Override
     public void vsq$bodyItemChanged(ItemStack stack) {
+        if (this.vsq$changingSpongeInternally) {
+            return;
+        }
+
         this.vsq$spongeAbsorbedWater = 0;
         this.vsq$lastSpongePosition = vsq$isDrySponge(stack) ? null : this.blockPosition();
+    }
+
+    @Unique
+    private void vsq$setSpongeBodyItem(ItemStack stack) {
+        this.vsq$changingSpongeInternally = true;
+        try {
+            this.setItemSlot(EquipmentSlot.BODY, stack);
+        } finally {
+            this.vsq$changingSpongeInternally = false;
+        }
     }
 
     @Unique
@@ -202,7 +218,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
             this.vsq$spongeAbsorbedWater = 0;
             this.vsq$lastSpongePosition = position;
             if (level.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, position)) {
-                this.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.SPONGE));
+                this.vsq$setSpongeBodyItem(new ItemStack(Items.SPONGE));
                 level.levelEvent(2009, position, 0);
                 level.playSound(null, position, SoundEvents.WET_SPONGE_DRIES, SoundSource.BLOCKS, 1.0F,
                         (1.0F + level.getRandom().nextFloat() * 0.2F) * 0.7F);
@@ -229,7 +245,8 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         this.vsq$spongeAbsorbedWater += removed;
         level.playSound(null, position, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0F, 1.0F);
         if (this.vsq$spongeAbsorbedWater >= VSQ_SPONGE_CAPACITY) {
-            this.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.WET_SPONGE));
+            this.vsq$setSpongeBodyItem(new ItemStack(Items.WET_SPONGE));
+            this.vsq$spongeAbsorbedWater = 0;
         }
     }
 
