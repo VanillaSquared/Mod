@@ -9,7 +9,7 @@
 <p align="center">
   <img alt="Minecraft" src="https://img.shields.io/badge/Minecraft-26.2-brightgreen?style=flat-square">
   <img alt="Fabric Loader" src="https://img.shields.io/badge/Fabric%20Loader-%3E%3D0.19.3-orange?style=flat-square">
-  <img alt="Fabric API" src="https://img.shields.io/badge/Fabric%20API-0.152.2%2B26.2-blue?style=flat-square">
+  <img alt="Fabric API" src="https://img.shields.io/badge/Fabric%20API-0.154.2%2B26.2-blue?style=flat-square">
   <img alt="Java" src="https://img.shields.io/badge/Java-%3E%3D25-red?style=flat-square">
 </p>
 
