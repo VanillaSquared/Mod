@@ -39,6 +39,7 @@ public final class SulfurCubeSpongeAbsorption {
                 return BlockPos.TraversalNodeStatus.SKIP;
             }
 
+            // BucketPickup permits a null player, and vanilla SpongeBlock uses the same call.
             if (state.getBlock() instanceof BucketPickup bucketPickup && !bucketPickup.pickupBlock(null, level, pos, state).isEmpty()) {
                 return BlockPos.TraversalNodeStatus.ACCEPT;
             }

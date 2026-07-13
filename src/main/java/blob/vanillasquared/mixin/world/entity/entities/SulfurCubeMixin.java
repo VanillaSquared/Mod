@@ -192,6 +192,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         }
 
         this.vsq$spongeAbsorbedWater = 0;
+        // A null position lets a newly equipped dry sponge absorb water on the next tick.
         this.vsq$lastSpongePosition = vsq$isDrySponge(stack) ? null : this.blockPosition();
     }
 
