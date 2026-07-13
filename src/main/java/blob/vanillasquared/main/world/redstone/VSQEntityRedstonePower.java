@@ -1,14 +1,11 @@
 package blob.vanillasquared.main.world.redstone;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 
@@ -17,11 +14,6 @@ import java.util.Set;
 
 public final class VSQEntityRedstonePower {
     public static final String POWER_REDSTONE_KEY = "vsq:powerRedstone";
-    private static final TagKey<Item> SULFUR_CUBE_SWALLOWABLE = TagKey.create(
-            Registries.ITEM,
-            Identifier.fromNamespaceAndPath("minecraft", "sulfur_cube_swallowable")
-    );
-
     private VSQEntityRedstonePower() {
     }
 
@@ -33,7 +25,7 @@ public final class VSQEntityRedstonePower {
     }
 
     public static int getContentPower(ItemStack stack) {
-        return stack.is(SULFUR_CUBE_SWALLOWABLE) ? 15 : 0;
+        return stack.is(Items.REDSTONE_BLOCK) ? 15 : 0;
     }
 
     public static boolean hasPoweredEntities(ServerLevel level) {

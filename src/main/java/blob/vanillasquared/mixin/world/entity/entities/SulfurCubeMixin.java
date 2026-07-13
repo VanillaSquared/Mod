@@ -1,14 +1,20 @@
 package blob.vanillasquared.mixin.world.entity.entities;
 
 import blob.vanillasquared.main.world.entity.SulfurCubeBreedingState;
+import blob.vanillasquared.main.world.entity.SulfurCubeSpongeAbsorption;
+import blob.vanillasquared.main.world.entity.SulfurCubeSpongeState;
 import blob.vanillasquared.main.world.item.VSQItems;
 import blob.vanillasquared.main.world.redstone.VSQContentRedstonePowerAccess;
 import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePower;
 import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import blob.vanillasquared.mixin.world.entity.CubeMobMoveControlAccessor;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,6 +28,8 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.monster.cubemob.SulfurCube;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
@@ -38,7 +46,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.EnumSet;
 
 @Mixin(SulfurCube.class)
-public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBreedingState, VSQContentRedstonePowerAccess {
+public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBreedingState, SulfurCubeSpongeState, VSQContentRedstonePowerAccess {
     @Unique
     private static final int VSQ_IN_LOVE_TIME = 600;
     @Unique
@@ -46,11 +54,18 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Unique
     private static final int VSQ_BREEDING_TIME = 60;
     @Unique
+    private static final int VSQ_SPONGE_CAPACITY = 1280;
+    @Unique
     private int vsq$inLove;
     @Unique
     private int vsq$breedTime;
     @Unique
     private int vsq$lastResolvedContentRedstonePower = -1;
+    @Unique
+    private int vsq$spongeAbsorbedWater;
+    @Unique
+    @Nullable
+    private BlockPos vsq$lastSpongePosition;
     @Unique
     @Nullable
     private ServerPlayer vsq$loveCause;
@@ -98,6 +113,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Inject(method = "customServerAiStep", at = @At("TAIL"))
     private void vsq$customServerAiStep(ServerLevel level, CallbackInfo ci) {
         this.vsq$setRedstonePowerForContent();
+        this.vsq$tickSponge(level);
 
         if (this.getAge() != 0) {
             this.vsq$resetLove();
@@ -130,12 +146,77 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void vsq$saveBreedingState(ValueOutput output, CallbackInfo ci) {
         output.putInt("VSQInLove", this.vsq$inLove);
+        output.putInt("VSQSpongeAbsorbedWater", this.vsq$spongeAbsorbedWater);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void vsq$loadBreedingState(ValueInput input, CallbackInfo ci) {
         this.vsq$inLove = input.getIntOr("VSQInLove", 0);
+        this.vsq$spongeAbsorbedWater = Math.clamp(input.getIntOr("VSQSpongeAbsorbedWater", 0), 0, VSQ_SPONGE_CAPACITY);
+        if (!this.getItemBySlot(EquipmentSlot.BODY).is(Items.SPONGE)) {
+            this.vsq$spongeAbsorbedWater = 0;
+        }
+        this.vsq$lastSpongePosition = this.blockPosition();
         this.vsq$setRedstonePowerForContent();
+    }
+
+    @Inject(method = "saveToBucketTag", at = @At("TAIL"))
+    private void vsq$saveSpongeStateToBucket(ItemStack bucket, CallbackInfo ci) {
+        net.minecraft.world.item.component.CustomData.update(net.minecraft.core.component.DataComponents.BUCKET_ENTITY_DATA, bucket,
+                tag -> tag.putInt("VSQSpongeAbsorbedWater", this.vsq$spongeAbsorbedWater));
+    }
+
+    @Inject(method = "loadFromBucketTag", at = @At("TAIL"))
+    private void vsq$loadSpongeStateFromBucket(CompoundTag tag, CallbackInfo ci) {
+        this.vsq$spongeAbsorbedWater = this.getItemBySlot(EquipmentSlot.BODY).is(Items.SPONGE)
+                ? Math.clamp(tag.getIntOr("VSQSpongeAbsorbedWater", 0), 0, VSQ_SPONGE_CAPACITY)
+                : 0;
+        this.vsq$lastSpongePosition = this.blockPosition();
+    }
+
+    @Override
+    public void vsq$bodyItemChanged(ItemStack stack) {
+        this.vsq$spongeAbsorbedWater = 0;
+        this.vsq$lastSpongePosition = stack.is(Items.SPONGE) ? null : this.blockPosition();
+    }
+
+    @Unique
+    private void vsq$tickSponge(ServerLevel level) {
+        ItemStack bodyItem = this.getItemBySlot(EquipmentSlot.BODY);
+        BlockPos position = this.blockPosition();
+        if (bodyItem.is(Items.WET_SPONGE)) {
+            this.vsq$spongeAbsorbedWater = 0;
+            this.vsq$lastSpongePosition = position;
+            if (level.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, position)) {
+                this.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.SPONGE));
+                level.levelEvent(2009, position, 0);
+                level.playSound(null, position, SoundEvents.WET_SPONGE_DRIES, SoundSource.BLOCKS, 1.0F,
+                        (1.0F + level.getRandom().nextFloat() * 0.2F) * 0.7F);
+            }
+            return;
+        }
+
+        if (!bodyItem.is(Items.SPONGE)) {
+            this.vsq$spongeAbsorbedWater = 0;
+            this.vsq$lastSpongePosition = null;
+            return;
+        }
+
+        if (position.equals(this.vsq$lastSpongePosition)) {
+            return;
+        }
+        this.vsq$lastSpongePosition = position;
+
+        int removed = SulfurCubeSpongeAbsorption.absorb(level, position, VSQ_SPONGE_CAPACITY - this.vsq$spongeAbsorbedWater);
+        if (removed <= 0) {
+            return;
+        }
+
+        this.vsq$spongeAbsorbedWater += removed;
+        level.playSound(null, position, SoundEvents.SPONGE_ABSORB, SoundSource.BLOCKS, 1.0F, 1.0F);
+        if (this.vsq$spongeAbsorbedWater >= VSQ_SPONGE_CAPACITY) {
+            this.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.WET_SPONGE));
+        }
     }
 
     @Override
