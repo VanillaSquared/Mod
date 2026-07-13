@@ -3,7 +3,6 @@ package blob.vanillasquared.mixin.world.entity.entities;
 import blob.vanillasquared.main.world.entity.SulfurCubeBreedingState;
 import blob.vanillasquared.main.world.item.VSQItems;
 import blob.vanillasquared.main.world.redstone.VSQContentRedstonePowerAccess;
-import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePower;
 import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import blob.vanillasquared.mixin.world.entity.CubeMobMoveControlAccessor;
 import net.minecraft.core.particles.ParticleTypes;
@@ -22,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.monster.cubemob.SulfurCube;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
@@ -141,7 +141,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Override
     public void vsq$setRedstonePowerForContent() {
         ItemStack bodyItem = this.getItemBySlot(EquipmentSlot.BODY);
-        int redstonePower = VSQEntityRedstonePower.getContentPower(bodyItem);
+        int redstonePower = bodyItem.is(Items.REDSTONE_BLOCK) ? 15 : 0;
         if (redstonePower == this.vsq$lastResolvedContentRedstonePower) {
             return;
         }
