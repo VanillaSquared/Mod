@@ -76,9 +76,6 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     private boolean vsq$changingSpongeInternally;
     @Unique
     @Nullable
-    private BlockPos vsq$lastSpongePosition;
-    @Unique
-    @Nullable
     private ServerPlayer vsq$loveCause;
 
     @Shadow
@@ -167,7 +164,6 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         if (!vsq$isDrySponge(this.getItemBySlot(EquipmentSlot.BODY))) {
             this.vsq$spongeAbsorbedWater = 0;
         }
-        this.vsq$lastSpongePosition = this.blockPosition();
         this.vsq$setRedstonePowerForContent();
     }
 
@@ -182,7 +178,6 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         this.vsq$spongeAbsorbedWater = vsq$isDrySponge(this.getItemBySlot(EquipmentSlot.BODY))
                 ? Math.clamp(tag.getIntOr("VSQSpongeAbsorbedWater", 0), 0, VSQ_SPONGE_CAPACITY)
                 : 0;
-        this.vsq$lastSpongePosition = this.blockPosition();
     }
 
     @Override
@@ -192,8 +187,6 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         }
 
         this.vsq$spongeAbsorbedWater = 0;
-        // A null position lets a newly equipped dry sponge absorb water on the next tick.
-        this.vsq$lastSpongePosition = vsq$isDrySponge(stack) ? null : this.blockPosition();
     }
 
     @Unique
@@ -217,7 +210,6 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
         BlockPos position = this.blockPosition();
         if (bodyItem.is(Items.WET_SPONGE)) {
             this.vsq$spongeAbsorbedWater = 0;
-            this.vsq$lastSpongePosition = position;
             if (level.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, position)) {
                 this.vsq$setSpongeBodyItem(new ItemStack(Items.SPONGE));
                 level.levelEvent(2009, position, 0);
@@ -229,14 +221,8 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
 
         if (!vsq$isDrySponge(bodyItem)) {
             this.vsq$spongeAbsorbedWater = 0;
-            this.vsq$lastSpongePosition = null;
             return;
         }
-
-        if (position.equals(this.vsq$lastSpongePosition)) {
-            return;
-        }
-        this.vsq$lastSpongePosition = position;
 
         int removed = SulfurCubeSpongeAbsorption.absorb(level, position, VSQ_SPONGE_CAPACITY - this.vsq$spongeAbsorbedWater);
         if (removed <= 0) {
