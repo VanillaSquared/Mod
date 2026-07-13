@@ -10,14 +10,18 @@ import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePowerAccess;
 import blob.vanillasquared.mixin.world.entity.CubeMobMoveControlAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,9 +31,9 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.monster.cubemob.SulfurCube;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
@@ -55,6 +59,11 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     private static final int VSQ_BREEDING_TIME = 60;
     @Unique
     private static final int VSQ_SPONGE_CAPACITY = 1280;
+    @Unique
+    private static final TagKey<Item> VSQ_DRIES_WATER = TagKey.create(
+            Registries.ITEM,
+            Identifier.fromNamespaceAndPath("vsq", "sulfur_cube_archetype/dries_water")
+    );
     @Unique
     private int vsq$inLove;
     @Unique
@@ -153,7 +162,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     private void vsq$loadBreedingState(ValueInput input, CallbackInfo ci) {
         this.vsq$inLove = input.getIntOr("VSQInLove", 0);
         this.vsq$spongeAbsorbedWater = Math.clamp(input.getIntOr("VSQSpongeAbsorbedWater", 0), 0, VSQ_SPONGE_CAPACITY);
-        if (!this.getItemBySlot(EquipmentSlot.BODY).is(Items.SPONGE)) {
+        if (!vsq$isDrySponge(this.getItemBySlot(EquipmentSlot.BODY))) {
             this.vsq$spongeAbsorbedWater = 0;
         }
         this.vsq$lastSpongePosition = this.blockPosition();
@@ -168,7 +177,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
 
     @Inject(method = "loadFromBucketTag", at = @At("TAIL"))
     private void vsq$loadSpongeStateFromBucket(CompoundTag tag, CallbackInfo ci) {
-        this.vsq$spongeAbsorbedWater = this.getItemBySlot(EquipmentSlot.BODY).is(Items.SPONGE)
+        this.vsq$spongeAbsorbedWater = vsq$isDrySponge(this.getItemBySlot(EquipmentSlot.BODY))
                 ? Math.clamp(tag.getIntOr("VSQSpongeAbsorbedWater", 0), 0, VSQ_SPONGE_CAPACITY)
                 : 0;
         this.vsq$lastSpongePosition = this.blockPosition();
@@ -177,7 +186,12 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
     @Override
     public void vsq$bodyItemChanged(ItemStack stack) {
         this.vsq$spongeAbsorbedWater = 0;
-        this.vsq$lastSpongePosition = stack.is(Items.SPONGE) ? null : this.blockPosition();
+        this.vsq$lastSpongePosition = vsq$isDrySponge(stack) ? null : this.blockPosition();
+    }
+
+    @Unique
+    private static boolean vsq$isDrySponge(ItemStack stack) {
+        return stack.is(VSQ_DRIES_WATER) && !stack.is(Items.WET_SPONGE);
     }
 
     @Unique
@@ -196,7 +210,7 @@ public abstract class SulfurCubeMixin extends AgeableMob implements SulfurCubeBr
             return;
         }
 
-        if (!bodyItem.is(Items.SPONGE)) {
+        if (!vsq$isDrySponge(bodyItem)) {
             this.vsq$spongeAbsorbedWater = 0;
             this.vsq$lastSpongePosition = null;
             return;
