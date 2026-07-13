@@ -17,9 +17,9 @@ import java.util.Set;
 
 public final class VSQEntityRedstonePower {
     public static final String POWER_REDSTONE_KEY = "vsq:powerRedstone";
-    private static final TagKey<Item> SULFUR_CUBE_SWALLOWABLE = TagKey.create(
+    private static final TagKey<Item> POWERS_REDSTONE = TagKey.create(
             Registries.ITEM,
-            Identifier.fromNamespaceAndPath("minecraft", "sulfur_cube_swallowable")
+            Identifier.fromNamespaceAndPath("vsq", "sulfur_cube_archetype/powers_redstone")
     );
 
     private VSQEntityRedstonePower() {
@@ -33,7 +33,7 @@ public final class VSQEntityRedstonePower {
     }
 
     public static int getContentPower(ItemStack stack) {
-        return stack.is(SULFUR_CUBE_SWALLOWABLE) ? 15 : 0;
+        return stack.is(POWERS_REDSTONE) ? 15 : 0;
     }
 
     public static boolean hasPoweredEntities(ServerLevel level) {

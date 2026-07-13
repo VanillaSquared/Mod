@@ -2,6 +2,7 @@ package blob.vanillasquared.mixin.world.entity;
 
 import blob.vanillasquared.main.world.effect.VSQMobEffects;
 import blob.vanillasquared.main.world.effect.VoidedEffectState;
+import blob.vanillasquared.main.world.entity.SulfurCubeSpongeState;
 import blob.vanillasquared.main.world.redstone.VSQContentRedstonePowerAccess;
 import blob.vanillasquared.main.world.util.DamageUtil;
 import blob.vanillasquared.main.world.item.enchantment.effects.EnchantmentPostBlockEffects;
@@ -77,6 +78,7 @@ public abstract class LivingEntityMixin {
     private void vsq$updateSulfurCubeContentRedstonePower(EquipmentSlot slot, ItemStack stack, CallbackInfo ci) {
         if (slot == EquipmentSlot.BODY && (Object) this instanceof SulfurCube sulfurCube) {
             ((VSQContentRedstonePowerAccess) sulfurCube).vsq$setRedstonePowerForContent();
+            ((SulfurCubeSpongeState) sulfurCube).vsq$bodyItemChanged(stack);
         }
     }
 
