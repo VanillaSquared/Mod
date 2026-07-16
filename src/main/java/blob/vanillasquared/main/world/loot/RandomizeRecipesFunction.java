@@ -58,6 +58,10 @@ public final class RandomizeRecipesFunction extends LootItemConditionalFunction 
         return context.getLevel().recipeAccess().byKey(recipe).isPresent() || EnchantingRecipeRegistry.contains(recipe);
     }
 
+    public static void clearWarningCache() {
+        WARNED_EMPTY_TAGS.clear();
+    }
+
     private static void vsq$warnEmptyTag(Identifier tag) {
         if (WARNED_EMPTY_TAGS.add(tag)) {
             VanillaSquared.LOGGER.warn("Recipe tag {} is missing, empty, or contains no loaded recipes", tag);

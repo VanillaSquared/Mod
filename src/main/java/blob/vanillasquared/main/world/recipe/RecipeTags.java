@@ -1,6 +1,8 @@
 package blob.vanillasquared.main.world.recipe;
 
 import blob.vanillasquared.main.VanillaSquared;
+import blob.vanillasquared.main.world.loot.LootTableIdResolver;
+import blob.vanillasquared.main.world.loot.RandomizeRecipesFunction;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -118,6 +120,8 @@ public final class RecipeTags {
 
         @Override
         protected void apply(Map<Identifier, List<Entry>> data, PreparableReloadListener.SharedState store) {
+            LootTableIdResolver.clearCache();
+            RandomizeRecipesFunction.clearWarningCache();
             Map<Identifier, List<ResourceKey<Recipe<?>>>> resolved = new LinkedHashMap<>();
             for (Identifier tagId : data.keySet()) {
                 LinkedHashSet<ResourceKey<Recipe<?>>> recipes = new LinkedHashSet<>();

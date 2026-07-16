@@ -1,6 +1,7 @@
 package blob.vanillasquared.main.world.recipe.enchanting;
 
 import blob.vanillasquared.main.VanillaSquared;
+import blob.vanillasquared.main.world.loot.RandomizeRecipesFunction;
 import blob.vanillasquared.main.world.recipe.VSQRecipeTypes;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -140,6 +141,7 @@ public final class EnchantingRecipeRegistry {
             RECIPES = Map.copyOf(data);
             RECIPE_DISPLAY_IDS = vsq$createDisplayIds(data);
             RECIPE_GROUP_IDS = vsq$createGroupIds(data);
+            RandomizeRecipesFunction.clearWarningCache();
             VanillaSquared.LOGGER.info("Loaded {} Enchanting recipes", RECIPES.size());
         }
 
