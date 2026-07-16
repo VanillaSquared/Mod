@@ -2,6 +2,7 @@ package blob.vanillasquared.main.world.item;
 
 import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeBookNotifier;
 import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeRegistry;
+import blob.vanillasquared.util.api.modules.components.VSQDataComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnchantRecipeItem extends Item {
@@ -26,17 +28,15 @@ public class EnchantRecipeItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        List<ResourceKey<Recipe<?>>> recipeKeys = stack.getOrDefault(DataComponents.RECIPES, List.<ResourceKey<Recipe<?>>>of()).stream().distinct().toList();
+        List<ResourceKey<Recipe<?>>> recipeKeys = vsq$getRecipeKeys(stack, !level.isClientSide()).stream()
+                .filter(EnchantingRecipeRegistry::contains)
+                .toList();
         if (recipeKeys.isEmpty()) {
             return InteractionResult.PASS;
         }
 
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
-        }
-
-        if (recipeKeys.stream().anyMatch(recipeKey -> !EnchantingRecipeRegistry.contains(recipeKey))) {
-            return InteractionResult.FAIL;
         }
 
         if (!(player instanceof ServerPlayer serverPlayer)) {
@@ -59,5 +59,20 @@ public class EnchantRecipeItem extends Item {
         }
 
         return InteractionResult.SUCCESS_SERVER;
+    }
+
+    private static List<ResourceKey<Recipe<?>>> vsq$getRecipeKeys(ItemStack stack, boolean migrateLegacyComponent) {
+        List<ResourceKey<Recipe<?>>> recipeKeys = new ArrayList<>(stack.getOrDefault(DataComponents.RECIPES, List.of()));
+        ResourceKey<Recipe<?>> legacyRecipe = stack.get(VSQDataComponents.ENCHANT_RECIPE);
+        if (legacyRecipe != null && !recipeKeys.contains(legacyRecipe)) {
+            recipeKeys.add(legacyRecipe);
+        }
+
+        List<ResourceKey<Recipe<?>>> distinctRecipeKeys = recipeKeys.stream().distinct().toList();
+        if (legacyRecipe != null && migrateLegacyComponent) {
+            stack.set(DataComponents.RECIPES, distinctRecipeKeys);
+            stack.remove(VSQDataComponents.ENCHANT_RECIPE);
+        }
+        return distinctRecipeKeys;
     }
 }

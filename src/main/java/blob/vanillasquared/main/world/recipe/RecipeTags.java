@@ -32,6 +32,7 @@ import java.util.function.Predicate;
 public final class RecipeTags {
     private static final Identifier RELOAD_LISTENER_ID = Identifier.fromNamespaceAndPath(VanillaSquared.MOD_ID, "recipe_tag_loader");
     private static final FileToIdConverter TAG_CONVERTER = FileToIdConverter.json("tags/recipe");
+    private static final FileToIdConverter RECIPE_CONVERTER = FileToIdConverter.json("recipe");
     private static volatile Map<Identifier, List<ResourceKey<Recipe<?>>>> TAGS = Map.of();
 
     private RecipeTags() {
@@ -57,9 +58,12 @@ public final class RecipeTags {
     private record Entry(Identifier id, boolean tag, boolean required) {
     }
 
-    private static final class ReloadListener extends SimpleReloadListener<Map<Identifier, List<Entry>>> {
+    private record PreparedTags(Map<Identifier, List<Entry>> tags, Set<Identifier> recipeIds) {
+    }
+
+    private static final class ReloadListener extends SimpleReloadListener<PreparedTags> {
         @Override
-        protected Map<Identifier, List<Entry>> prepare(PreparableReloadListener.SharedState store) {
+        protected PreparedTags prepare(PreparableReloadListener.SharedState store) {
             Map<Identifier, List<Entry>> loaded = new LinkedHashMap<>();
             for (Identifier fileId : TAG_CONVERTER.listMatchingResources(store.resourceManager()).keySet()) {
                 Identifier tagId = TAG_CONVERTER.fileToId(fileId);
@@ -87,7 +91,11 @@ public final class RecipeTags {
                 }
                 loaded.put(tagId, List.copyOf(values));
             }
-            return loaded;
+            Set<Identifier> recipeIds = new LinkedHashSet<>();
+            for (Identifier fileId : RECIPE_CONVERTER.listMatchingResources(store.resourceManager()).keySet()) {
+                recipeIds.add(RECIPE_CONVERTER.fileToId(fileId));
+            }
+            return new PreparedTags(Map.copyOf(loaded), Set.copyOf(recipeIds));
         }
 
         private static List<Entry> vsq$parseValues(Identifier tagId, JsonArray values) {
@@ -119,20 +127,21 @@ public final class RecipeTags {
         }
 
         @Override
-        protected void apply(Map<Identifier, List<Entry>> data, PreparableReloadListener.SharedState store) {
+        protected void apply(PreparedTags prepared, PreparableReloadListener.SharedState store) {
             LootTableIdResolver.clearCache();
             RandomizeRecipesFunction.clearWarningCache();
+            Map<Identifier, List<Entry>> data = prepared.tags();
             Map<Identifier, List<ResourceKey<Recipe<?>>>> resolved = new LinkedHashMap<>();
             for (Identifier tagId : data.keySet()) {
                 LinkedHashSet<ResourceKey<Recipe<?>>> recipes = new LinkedHashSet<>();
-                vsq$resolve(tagId, data, recipes, new LinkedHashSet<>());
+                vsq$resolve(tagId, data, prepared.recipeIds(), recipes, new LinkedHashSet<>());
                 resolved.put(tagId, List.copyOf(recipes));
             }
             TAGS = Map.copyOf(resolved);
             VanillaSquared.LOGGER.info("Loaded {} recipe tags", TAGS.size());
         }
 
-        private static void vsq$resolve(Identifier tagId, Map<Identifier, List<Entry>> data, Set<ResourceKey<Recipe<?>>> output, Set<Identifier> visiting) {
+        private static void vsq$resolve(Identifier tagId, Map<Identifier, List<Entry>> data, Set<Identifier> recipeIds, Set<ResourceKey<Recipe<?>>> output, Set<Identifier> visiting) {
             if (!visiting.add(tagId)) {
                 VanillaSquared.LOGGER.warn("Ignoring cycle involving recipe tag {}", tagId);
                 return;
@@ -140,7 +149,11 @@ public final class RecipeTags {
 
             for (Entry entry : data.getOrDefault(tagId, List.of())) {
                 if (!entry.tag()) {
-                    output.add(ResourceKey.create(Registries.RECIPE, entry.id()));
+                    if (recipeIds.contains(entry.id())) {
+                        output.add(ResourceKey.create(Registries.RECIPE, entry.id()));
+                    } else if (entry.required()) {
+                        VanillaSquared.LOGGER.warn("Recipe tag {} references missing required recipe {}", tagId, entry.id());
+                    }
                     continue;
                 }
                 if (!data.containsKey(entry.id())) {
@@ -149,7 +162,7 @@ public final class RecipeTags {
                     }
                     continue;
                 }
-                vsq$resolve(entry.id(), data, output, visiting);
+                vsq$resolve(entry.id(), data, recipeIds, output, visiting);
             }
             visiting.remove(tagId);
         }
