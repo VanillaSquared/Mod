@@ -35,13 +35,17 @@ public abstract class ItemStackMixin {
     @Inject(method = "getTooltipLines", at = @At("RETURN"), cancellable = true)
     private void vsq$addEnchantRecipeTooltip(Item.TooltipContext context, Player player, TooltipFlag tooltipFlag, CallbackInfoReturnable<List<Component>> cir) {
         ItemStack stack = (ItemStack) (Object) this;
-        ResourceKey<Recipe<?>> recipeKey = VSQItemComponents.getEnchantRecipe(stack);
-        if (recipeKey == null) {
+        List<ResourceKey<Recipe<?>>> recipeKeys = stack.getOrDefault(DataComponents.RECIPES, List.<ResourceKey<Recipe<?>>>of());
+        if (recipeKeys.isEmpty()) {
             return;
         }
 
         List<Component> tooltip = new ArrayList<>(cir.getReturnValue());
-        tooltip.add(vsq$slotTooltipInsertionIndex(tooltip), vsq$recipeDisplayName(recipeKey).withStyle(ChatFormatting.GRAY));
+        List<Component> recipeNames = recipeKeys.stream()
+                .map(recipeKey -> vsq$recipeDisplayName(recipeKey).withStyle(ChatFormatting.GRAY))
+                .map(Component.class::cast)
+                .toList();
+        tooltip.addAll(vsq$slotTooltipInsertionIndex(tooltip), recipeNames);
         cir.setReturnValue(List.copyOf(tooltip));
     }
 

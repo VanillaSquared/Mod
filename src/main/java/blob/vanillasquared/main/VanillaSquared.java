@@ -8,7 +8,7 @@ import blob.vanillasquared.main.world.loot.VSQLootFunctions;
 import blob.vanillasquared.main.world.particle.VSQParticleTypes;
 import blob.vanillasquared.main.world.item.VSQItems;
 import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeRegistry;
-import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeTags;
+import blob.vanillasquared.main.world.recipe.RecipeTags;
 import blob.vanillasquared.main.world.recipe.VSQRecipeTypes;
 import blob.vanillasquared.main.world.VSQExperiments;
 import blob.vanillasquared.main.world.VSQStats;
@@ -34,7 +34,7 @@ public class VanillaSquared implements ModInitializer {
         VSQExperiments.initialize();
         VSQStats.initialize();
         EnchantingRecipeRegistry.initialize();
-        EnchantingRecipeTags.initialize();
+        RecipeTags.initialize();
         VSQParticleTypes.initialize();
         VSQDataComponents.initialize();
         VSQEnchantmentEffects.initialize();

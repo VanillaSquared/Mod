@@ -140,7 +140,6 @@ public final class EnchantingRecipeRegistry {
             RECIPES = Map.copyOf(data);
             RECIPE_DISPLAY_IDS = vsq$createDisplayIds(data);
             RECIPE_GROUP_IDS = vsq$createGroupIds(data);
-            EnchantingRecipeTags.invalidateValidRecipeCache();
             VanillaSquared.LOGGER.info("Loaded {} Enchanting recipes", RECIPES.size());
         }
 

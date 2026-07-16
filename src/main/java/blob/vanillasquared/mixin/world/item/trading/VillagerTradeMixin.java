@@ -1,6 +1,8 @@
 package blob.vanillasquared.mixin.world.item.trading;
 
-import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeTags;
+import blob.vanillasquared.main.world.item.VSQItems;
+import blob.vanillasquared.main.world.loot.RandomizeRecipesFunction;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeDistribution;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.villager.Villager;
@@ -47,7 +49,7 @@ public abstract class VillagerTradeMixin {
         }
 
         Identifier tagId = vsq$resolveLibrarianTag(lootContext);
-        ItemStack replacement = EnchantingRecipeTags.createRandomStack(tagId, lootContext.getRandom());
+        ItemStack replacement = RandomizeRecipesFunction.apply(this.gives.create().transmuteCopy(VSQItems.ENCHANT_RECIPE), tagId, lootContext);
         if (replacement.isEmpty()) {
             cir.setReturnValue(null);
             return;
@@ -84,7 +86,7 @@ public abstract class VillagerTradeMixin {
         }
 
         Identifier tagId = vsq$resolveLibrarianTag(lootContext);
-        ItemStack replacement = EnchantingRecipeTags.createRandomStack(tagId, lootContext.getRandom());
+        ItemStack replacement = RandomizeRecipesFunction.apply(offer.getResult().transmuteCopy(VSQItems.ENCHANT_RECIPE), tagId, lootContext);
         if (replacement.isEmpty()) {
             return;
         }
@@ -100,9 +102,9 @@ public abstract class VillagerTradeMixin {
             return villager.getVillagerData()
                     .type()
                     .unwrapKey()
-                    .map(key -> EnchantingRecipeTags.librarianTagForVariant(key.identifier()))
-                    .orElse(EnchantingRecipeTags.DEFAULT_LIBRARIAN_TAG);
+                    .map(key -> EnchantingRecipeDistribution.librarianTagForVariant(key.identifier()))
+                    .orElse(EnchantingRecipeDistribution.DEFAULT_LIBRARIAN_TAG);
         }
-        return EnchantingRecipeTags.DEFAULT_LIBRARIAN_TAG;
+        return EnchantingRecipeDistribution.DEFAULT_LIBRARIAN_TAG;
     }
 }
