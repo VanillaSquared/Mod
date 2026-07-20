@@ -1,8 +1,10 @@
 package blob.vanillasquared.mixin.world.loot;
 
+import blob.vanillasquared.main.world.item.VSQItems;
 import blob.vanillasquared.main.world.loot.RandomizeEnchantmentSlotsFunction;
+import blob.vanillasquared.main.world.loot.RandomizeRecipesFunction;
 import blob.vanillasquared.main.world.loot.LootContextBridge;
-import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeTags;
+import blob.vanillasquared.main.world.recipe.enchanting.EnchantingRecipeDistribution;
 import blob.vanillasquared.util.api.enchantment.VSQEnchantments;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +26,7 @@ public abstract class LootPoolMixin {
         return stack -> {
             if (stack.is(Items.ENCHANTED_BOOK)) {
                 Identifier tagId = vsq$resolveLootTag(context);
-                ItemStack recipeStack = EnchantingRecipeTags.createRandomStack(tagId, context.getRandom());
+                ItemStack recipeStack = RandomizeRecipesFunction.apply(new ItemStack(VSQItems.ENCHANT_RECIPE), tagId, context);
                 if (!recipeStack.isEmpty()) {
                     original.accept(recipeStack);
                 }
@@ -40,7 +42,7 @@ public abstract class LootPoolMixin {
     @Unique
     private static Identifier vsq$resolveLootTag(LootContext context) {
         return ((LootContextBridge) context).vsq$currentLootTableId()
-                .map(EnchantingRecipeTags::lootTagForTable)
-                .orElse(EnchantingRecipeTags.DEFAULT_LOOT_TAG);
+                .map(EnchantingRecipeDistribution::lootTagForTable)
+                .orElse(EnchantingRecipeDistribution.DEFAULT_LOOT_TAG);
     }
 }

@@ -22,6 +22,7 @@ public final class RegisterComponents {
             HitThroughComponent.STREAM_CODEC
     );
 
+    /** Retained so recipe items saved before 2.12.1 can be migrated to {@code DataComponents.RECIPES}. */
     public static final DataComponentType<ResourceKey<Recipe<?>>> enchantRecipeComponent = ComponentRegistry.registerSynchronizedCached(
             Identifier.fromNamespaceAndPath(VanillaSquared.MOD_ID, "enchant_recipe"),
             ResourceKey.codec(Registries.RECIPE),

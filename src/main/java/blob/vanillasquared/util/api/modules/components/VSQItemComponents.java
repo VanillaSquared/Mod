@@ -2,9 +2,7 @@ package blob.vanillasquared.util.api.modules.components;
 
 import blob.vanillasquared.main.world.item.components.hitthrough.HitThroughComponent;
 import blob.vanillasquared.main.world.item.enchantment.VSQEnchantmentComponent;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 
 public final class VSQItemComponents {
     private VSQItemComponents() {
@@ -28,13 +26,5 @@ public final class VSQItemComponents {
 
     public static HitThroughComponent getHitThroughComponent(ItemStack stack) {
         return stack.get(VSQDataComponents.HIT_THROUGH);
-    }
-
-    public static ResourceKey<Recipe<?>> getEnchantRecipe(ItemStack stack) {
-        return stack.get(VSQDataComponents.ENCHANT_RECIPE);
-    }
-
-    public static void setEnchantRecipe(ItemStack stack, ResourceKey<Recipe<?>> recipeKey) {
-        stack.set(VSQDataComponents.ENCHANT_RECIPE, recipeKey);
     }
 }

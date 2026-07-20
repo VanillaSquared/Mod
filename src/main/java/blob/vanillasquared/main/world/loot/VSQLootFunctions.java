@@ -13,6 +13,11 @@ public final class VSQLootFunctions {
             Identifier.fromNamespaceAndPath(VanillaSquared.MOD_ID, "randomize_enchantment_slots"),
             RandomizeEnchantmentSlotsFunction.MAP_CODEC
     );
+    public static final MapCodec<? extends LootItemFunction> RANDOMIZE_RECIPES = Registry.register(
+            BuiltInRegistries.LOOT_FUNCTION_TYPE,
+            Identifier.fromNamespaceAndPath(VanillaSquared.MOD_ID, "randomize_recipes"),
+            RandomizeRecipesFunction.MAP_CODEC
+    );
 
     private VSQLootFunctions() {
     }

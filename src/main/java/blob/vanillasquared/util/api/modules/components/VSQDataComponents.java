@@ -9,6 +9,7 @@ import net.minecraft.world.item.crafting.Recipe;
 public final class VSQDataComponents {
     public static final DataComponentType<VSQEnchantmentComponent> ENCHANTMENT = RegisterComponents.enchantmentComponent;
     public static final DataComponentType<HitThroughComponent> HIT_THROUGH = RegisterComponents.hitThroughComponent;
+    /** Legacy component retained only to migrate recipe items saved before 2.12.1. */
     public static final DataComponentType<ResourceKey<Recipe<?>>> ENCHANT_RECIPE = RegisterComponents.enchantRecipeComponent;
 
     private VSQDataComponents() {
