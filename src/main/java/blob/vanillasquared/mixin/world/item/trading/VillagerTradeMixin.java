@@ -49,7 +49,7 @@ public abstract class VillagerTradeMixin {
         }
 
         Identifier tagId = vsq$resolveLibrarianTag(lootContext);
-        ItemStack replacement = RandomizeRecipesFunction.apply(this.gives.create().transmuteCopy(VSQItems.ENCHANT_RECIPE), tagId, lootContext);
+        ItemStack replacement = RandomizeRecipesFunction.apply(new ItemStack(VSQItems.ENCHANT_RECIPE), tagId, lootContext);
         if (replacement.isEmpty()) {
             cir.setReturnValue(null);
             return;
@@ -86,7 +86,7 @@ public abstract class VillagerTradeMixin {
         }
 
         Identifier tagId = vsq$resolveLibrarianTag(lootContext);
-        ItemStack replacement = RandomizeRecipesFunction.apply(offer.getResult().transmuteCopy(VSQItems.ENCHANT_RECIPE), tagId, lootContext);
+        ItemStack replacement = RandomizeRecipesFunction.apply(new ItemStack(VSQItems.ENCHANT_RECIPE), tagId, lootContext);
         if (replacement.isEmpty()) {
             return;
         }

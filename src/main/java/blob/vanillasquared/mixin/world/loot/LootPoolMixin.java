@@ -26,7 +26,7 @@ public abstract class LootPoolMixin {
         return stack -> {
             if (stack.is(Items.ENCHANTED_BOOK)) {
                 Identifier tagId = vsq$resolveLootTag(context);
-                ItemStack recipeStack = RandomizeRecipesFunction.apply(stack.transmuteCopy(VSQItems.ENCHANT_RECIPE), tagId, context);
+                ItemStack recipeStack = RandomizeRecipesFunction.apply(new ItemStack(VSQItems.ENCHANT_RECIPE), tagId, context);
                 if (!recipeStack.isEmpty()) {
                     original.accept(recipeStack);
                 }
