@@ -49,6 +49,5 @@
   "description": {
     "translate": "enchantment.vsq.predicate_flags_test"
   },
-  "supported_items": "#minecraft:enchantable/weapon",
-  "weight": 1
+  "supported_items": "#minecraft:enchantable/weapon"
 }

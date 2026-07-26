@@ -57,6 +57,5 @@
   "description": {
     "translate": "enchantment.minecraft.quick_charge"
   },
-  "supported_items": "#minecraft:enchantable/crossbow",
-  "weight": 5
+  "supported_items": "#minecraft:enchantable/crossbow"
 }

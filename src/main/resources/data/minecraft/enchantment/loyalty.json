@@ -41,6 +41,5 @@
   "description": {
     "translate": "enchantment.minecraft.loyalty"
   },
-  "supported_items": "#minecraft:enchantable/trident",
-  "weight": 5
+  "supported_items": "#minecraft:enchantable/trident"
 }

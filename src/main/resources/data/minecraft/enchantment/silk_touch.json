@@ -37,6 +37,5 @@
   "description": {
     "translate": "enchantment.minecraft.silk_touch"
   },
-  "supported_items": "#minecraft:enchantable/mining_loot",
-  "weight": 1
+  "supported_items": "#minecraft:enchantable/mining_loot"
 }

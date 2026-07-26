@@ -196,6 +196,5 @@
   "description": {
     "translate": "enchantment.minecraft.channeling"
   },
-  "supported_items": "#vsq:enchantable/channeling",
-  "weight": 1
+  "supported_items": "#vsq:enchantable/channeling"
 }

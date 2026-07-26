@@ -1,5 +1,6 @@
 package blob.vanillasquared.mixin.world.item.echanting;
 
+import blob.vanillasquared.main.VanillaSquared;
 import blob.vanillasquared.main.world.item.enchantment.VSQEnchantmentAccess;
 import blob.vanillasquared.main.world.item.enchantment.VSQEnchantmentProfile;
 import blob.vanillasquared.main.world.item.enchantment.SpecialEffectMetadataIndex;
@@ -59,6 +60,8 @@ import java.util.Set;
 
 @Mixin(Enchantment.class)
 public abstract class EnchantmentMixin implements VSQEnchantmentAccess {
+    @Unique
+    private static final int DEFAULT_WEIGHT = 1;
     @Unique
     private static final Identifier VSQ_DASH_ENCHANTMENT_ID = Identifier.fromNamespaceAndPath("vsq", "dash");
 
@@ -440,7 +443,7 @@ public abstract class EnchantmentMixin implements VSQEnchantmentAccess {
                 ComponentSerialization.CODEC.fieldOf("description").forGetter(Enchantment::description),
                 RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("supported_items").forGetter(enchantment -> enchantment.definition().supportedItems()),
                 RegistryCodecs.homogeneousList(Registries.ITEM).optionalFieldOf("primary_items").forGetter(enchantment -> enchantment.definition().primaryItems()),
-                Codec.INT.fieldOf("weight").forGetter(enchantment -> enchantment.definition().weight()),
+                Codec.INT.optionalFieldOf("weight").forGetter(enchantment -> Optional.<Integer>empty()),
                 Codec.INT.fieldOf("anvil_cost").forGetter(enchantment -> enchantment.definition().anvilCost()),
                 VSQEnchantmentProfile.CODEC.listOf().optionalFieldOf("profiles").forGetter(enchantment -> Optional.of(((VSQEnchantmentAccess) (Object) enchantment).vsq$getProfiles())),
                 RegistryCodecs.homogeneousList(Registries.ENCHANTMENT).optionalFieldOf("exclusive_set").forGetter(enchantment -> Optional.empty()),
@@ -458,7 +461,7 @@ public abstract class EnchantmentMixin implements VSQEnchantmentAccess {
             net.minecraft.network.chat.Component description,
             HolderSet<Item> supportedItems,
             Optional<HolderSet<Item>> primaryItems,
-            int weight,
+            Optional<Integer> ignoredWeight,
             int anvilCost,
             Optional<List<VSQEnchantmentProfile>> profiles,
             Optional<HolderSet<Enchantment>> legacyExclusiveSet,
@@ -469,6 +472,12 @@ public abstract class EnchantmentMixin implements VSQEnchantmentAccess {
             Optional<Enchantment.Cost> legacyMaxCost,
             Optional<List<EquipmentSlotGroup>> legacySlots
     ) {
+        ignoredWeight.ifPresent(weight -> VanillaSquared.LOGGER.warn(
+                "Ignoring unsupported enchantment definition field 'weight' with value {} for {}",
+                weight,
+                description.getString()
+        ));
+
         Optional<List<VSQEnchantmentProfile>> providedProfiles = profiles.filter(list -> !list.isEmpty());
         List<VSQEnchantmentProfile> resolvedProfiles = providedProfiles.orElseGet(() -> legacySlotType.map(slotType -> List.of(new VSQEnchantmentProfile(
                 Optional.empty(),
@@ -493,7 +502,7 @@ public abstract class EnchantmentMixin implements VSQEnchantmentAccess {
         Enchantment.EnchantmentDefinition definition = new Enchantment.EnchantmentDefinition(
                 supportedItems,
                 primaryItems,
-                weight,
+                DEFAULT_WEIGHT,
                 maxLevel,
                 minCost,
                 maxCost,

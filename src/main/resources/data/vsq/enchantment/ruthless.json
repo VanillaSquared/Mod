@@ -53,6 +53,5 @@
     "translate": "enchantment.vsq.ruthless"
   },
   "primary_items": "#vsq:enchantable/melee_weapon",
-  "supported_items": "#vsq:enchantable/melee_weapon",
-  "weight": 5
+  "supported_items": "#vsq:enchantable/melee_weapon"
 }

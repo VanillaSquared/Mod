@@ -83,6 +83,5 @@
   "description": {
     "translate": "enchantment.minecraft.unbreaking"
   },
-  "supported_items": "#minecraft:enchantable/durability",
-  "weight": 5
+  "supported_items": "#minecraft:enchantable/durability"
 }

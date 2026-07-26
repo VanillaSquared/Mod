@@ -39,6 +39,5 @@
   "description": {
     "translate": "enchantment.minecraft.swift_sneak"
   },
-  "supported_items": "#minecraft:enchantable/leg_armor",
-  "weight": 1
+  "supported_items": "#minecraft:enchantable/leg_armor"
 }
