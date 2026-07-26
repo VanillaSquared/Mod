@@ -39,6 +39,5 @@
   "description": {
     "translate": "enchantment.minecraft.respiration"
   },
-  "supported_items": "#minecraft:enchantable/head_armor",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/head_armor"
 }

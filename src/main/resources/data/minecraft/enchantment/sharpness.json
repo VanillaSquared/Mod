@@ -118,6 +118,5 @@
     "translate": "enchantment.minecraft.sharpness"
   },
   "primary_items": "#vsq:enchantable/sharpness",
-  "supported_items": "#vsq:enchantable/sharpness",
-  "weight": 10
+  "supported_items": "#vsq:enchantable/sharpness"
 }

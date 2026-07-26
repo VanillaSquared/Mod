@@ -116,6 +116,5 @@
     "translate": "enchantment.minecraft.thorns"
   },
   "primary_items": "#vsq:enchantable/thorns",
-  "supported_items": "#vsq:enchantable/thorns",
-  "weight": 1
+  "supported_items": "#vsq:enchantable/thorns"
 }

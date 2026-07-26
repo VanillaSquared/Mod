@@ -191,6 +191,5 @@
   "description": {
     "translate": "enchantment.minecraft.looting"
   },
-  "supported_items": "#vsq:enchantable/looting",
-  "weight": 2
+  "supported_items": "#vsq:enchantable/looting"
 }

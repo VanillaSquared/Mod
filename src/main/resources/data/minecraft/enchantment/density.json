@@ -3,7 +3,6 @@
     "translate": "enchantment.minecraft.density"
   },
   "supported_items": "#vsq:enchantable/removed",
-  "weight": 1,
   "anvil_cost": 1,
   "max_level": 1,
   "min_cost": {

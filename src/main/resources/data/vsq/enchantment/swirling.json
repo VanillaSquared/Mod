@@ -84,6 +84,5 @@
     "translate": "enchantment.vsq.swirling"
   },
   "primary_items": "#vsq:enchantable/swirling",
-  "supported_items": "#vsq:enchantable/swirling",
-  "weight": 2
+  "supported_items": "#vsq:enchantable/swirling"
 }

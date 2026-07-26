@@ -41,6 +41,5 @@
   "description": {
     "translate": "enchantment.minecraft.breach"
   },
-  "supported_items": "#minecraft:enchantable/mace",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/mace"
 }

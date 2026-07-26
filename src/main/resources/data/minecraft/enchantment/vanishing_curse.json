@@ -30,6 +30,5 @@
   "description": {
     "translate": "enchantment.minecraft.vanishing_curse"
   },
-  "supported_items": "#minecraft:enchantable/vanishing",
-  "weight": 1
+  "supported_items": "#minecraft:enchantable/vanishing"
 }

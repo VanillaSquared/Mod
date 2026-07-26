@@ -47,6 +47,5 @@
   "description": {
     "translate": "enchantment.minecraft.sweeping_edge"
   },
-  "supported_items": "#minecraft:enchantable/sweeping",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/sweeping"
 }

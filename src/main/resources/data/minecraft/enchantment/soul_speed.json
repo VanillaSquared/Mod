@@ -266,6 +266,5 @@
   "description": {
     "translate": "enchantment.minecraft.soul_speed"
   },
-  "supported_items": "#minecraft:enchantable/foot_armor",
-  "weight": 1
+  "supported_items": "#minecraft:enchantable/foot_armor"
 }

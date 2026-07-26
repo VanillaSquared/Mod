@@ -36,6 +36,5 @@
   "description": {
     "translate": "enchantment.minecraft.mending"
   },
-  "supported_items": "#minecraft:enchantable/durability",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/durability"
 }

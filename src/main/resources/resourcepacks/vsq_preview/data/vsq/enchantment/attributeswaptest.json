@@ -40,6 +40,5 @@
   "description": {
     "text": "Attribute Swap Test"
   },
-  "supported_items": "#minecraft:enchantable/weapon",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/weapon"
 }

@@ -130,6 +130,5 @@
   "description": {
     "translate": "enchantment.minecraft.wind_burst"
   },
-  "supported_items": "#minecraft:enchantable/mace",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/mace"
 }

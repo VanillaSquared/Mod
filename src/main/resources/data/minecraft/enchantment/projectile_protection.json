@@ -55,6 +55,5 @@
   "description": {
     "translate": "enchantment.minecraft.projectile_protection"
   },
-  "supported_items": "#minecraft:enchantable/armor",
-  "weight": 5
+  "supported_items": "#minecraft:enchantable/armor"
 }

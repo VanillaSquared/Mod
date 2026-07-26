@@ -41,6 +41,5 @@
   "description": {
     "translate": "enchantment.minecraft.piercing"
   },
-  "supported_items": "#minecraft:enchantable/crossbow",
-  "weight": 10
+  "supported_items": "#minecraft:enchantable/crossbow"
 }

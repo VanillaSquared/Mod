@@ -118,6 +118,5 @@
   "description": {
     "translate": "enchantment.minecraft.punch"
   },
-  "supported_items": "#vsq:enchantable/all_weapons",
-  "weight": 2
+  "supported_items": "#vsq:enchantable/all_weapons"
 }

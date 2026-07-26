@@ -30,6 +30,5 @@
   "description": {
     "translate": "enchantment.minecraft.binding_curse"
   },
-  "supported_items": "#minecraft:enchantable/equippable",
-  "weight": 1
+  "supported_items": "#minecraft:enchantable/equippable"
 }

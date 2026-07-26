@@ -133,6 +133,5 @@
   "description": {
     "translate": "enchantment.minecraft.frost_walker"
   },
-  "supported_items": "#minecraft:enchantable/foot_armor",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/foot_armor"
 }

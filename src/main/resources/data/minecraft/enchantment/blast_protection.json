@@ -55,6 +55,5 @@
   "description": {
     "translate": "enchantment.minecraft.blast_protection"
   },
-  "supported_items": "#minecraft:enchantable/armor",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/armor"
 }

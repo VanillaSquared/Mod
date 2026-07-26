@@ -78,6 +78,5 @@
   "description": {
     "text": "Special Channeling Test"
   },
-  "supported_items": "#vsq:enchantable/channeling",
-  "weight": 2
+  "supported_items": "#vsq:enchantable/channeling"
 }

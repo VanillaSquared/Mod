@@ -51,6 +51,5 @@
   "description": {
     "translate": "enchantment.minecraft.protection"
   },
-  "supported_items": "#minecraft:enchantable/armor",
-  "weight": 10
+  "supported_items": "#minecraft:enchantable/armor"
 }

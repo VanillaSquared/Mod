@@ -148,6 +148,5 @@
   "description": {
     "translate": "enchantment.minecraft.lunge"
   },
-  "supported_items": "#minecraft:enchantable/lunge",
-  "weight": 5
+  "supported_items": "#minecraft:enchantable/lunge"
 }

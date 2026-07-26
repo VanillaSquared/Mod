@@ -40,6 +40,5 @@
   "description": {
     "translate": "enchantment.minecraft.lure"
   },
-  "supported_items": "#minecraft:enchantable/fishing",
-  "weight": 2
+  "supported_items": "#minecraft:enchantable/fishing"
 }

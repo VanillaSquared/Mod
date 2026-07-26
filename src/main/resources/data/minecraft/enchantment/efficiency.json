@@ -38,6 +38,5 @@
   "description": {
     "translate": "enchantment.minecraft.efficiency"
   },
-  "supported_items": "#minecraft:enchantable/mining",
-  "weight": 10
+  "supported_items": "#minecraft:enchantable/mining"
 }
