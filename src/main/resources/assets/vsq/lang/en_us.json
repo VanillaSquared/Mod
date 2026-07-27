@@ -162,5 +162,7 @@
   "tag.item.vsq.enchantable.projectile_source": "Projectile Sources",
   "tag.item.vsq.enchantable.channeling": "Channeling Items",
   "tag.item.vsq.enchantable.swirling": "Swirling Items",
-  "tag.block.vsq.channeling": "Blocks Channeling passes through"
+  "tag.block.vsq.channeling": "Blocks Channeling passes through",
+  "tag.block.vsq.redstone_transmits_upward": "Blocks That Transmit Redstone Upward",
+  "tag.block.vsq.redstone_transmits_downward": "Blocks That Transmit Redstone Downward"
 }
