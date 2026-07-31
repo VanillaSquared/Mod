@@ -1,121 +1,374 @@
-Creative Commons Legal Code
+# BLOB License Version 1.3
 
-CC0 1.0 Universal
+Copyright © 2026 Adrian Orlik, operating under the project name VanillaSquared. All rights reserved.
 
-    CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
-    LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN
-    ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
-    INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
-    REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS
-    PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM
-    THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
-    HEREUNDER.
+**This is a custom source-available license. It is not an open-source license.**
 
-Statement of Purpose
+This license governs the use, copying, modification, and distribution of the software, source code, assets, documentation, and other materials collectively referred to as the “Mod.”
 
-The laws of most jurisdictions throughout the world automatically confer
-exclusive Copyright and Related Rights (defined below) upon the creator
-and subsequent owner(s) (each and all, an "owner") of an original work of
-authorship and/or a database (each, a "Work").
+## 1. Definitions
 
-Certain owners wish to permanently relinquish those rights to a Work for
-the purpose of contributing to a commons of creative, cultural and
-scientific works ("Commons") that the public can reliably and without fear
-of later claims of infringement build upon, modify, incorporate in other
-works, reuse and redistribute as freely as possible in any form whatsoever
-and for any purposes, including without limitation commercial purposes.
-These owners may contribute to the Commons to promote the ideal of a free
-culture and the further production of creative, cultural and scientific
-works, or to gain reputation or greater distribution for their Work in
-part through the use and efforts of others.
+For the purposes of this license:
 
-For these and/or other purposes and motivations, and without any
-expectation of additional consideration or compensation, the person
-associating CC0 with a Work (the "Affirmer"), to the extent that he or she
-is an owner of Copyright and Related Rights in the Work, voluntarily
-elects to apply CC0 to the Work and publicly distribute the Work under its
-terms, with knowledge of his or her Copyright and Related Rights in the
-Work and the meaning and intended legal effect of CC0 on those rights.
+1. **“Copyright Holder”** or **“Licensor”** means Adrian Orlik, operating under the project name VanillaSquared.
 
-1. Copyright and Related Rights. A Work made available under CC0 may be
-protected by copyright and related or neighboring rights ("Copyright and
-Related Rights"). Copyright and Related Rights include, but are not
-limited to, the following:
+2. **“Mod”** means the version of the VanillaSquared software package with which this license is distributed, including its original source code, compiled files, documentation, graphics, audio, configuration files, and other original materials.
 
-  i. the right to reproduce, adapt, distribute, perform, display,
-     communicate, and translate a Work;
- ii. moral rights retained by the original author(s) and/or performer(s);
-iii. publicity and privacy rights pertaining to a person's image or
-     likeness depicted in a Work;
- iv. rights protecting against unfair competition in regards to a Work,
-     subject to the limitations in paragraph 4(a), below;
-  v. rights protecting the extraction, dissemination, use and reuse of data
-     in a Work;
- vi. database rights (such as those arising under Directive 96/9/EC of the
-     European Parliament and of the Council of 11 March 1996 on the legal
-     protection of databases, and under any national implementation
-     thereof, including any amended or successor version of such
-     directive); and
-vii. other similar, equivalent or corresponding rights throughout the
-     world based on applicable law or treaty, and any national
-     implementations thereof.
+3. **“Addon”** means a separate software package that:
 
-2. Waiver. To the greatest extent permitted by, but not in contravention
-of, applicable law, Affirmer hereby overtly, fully, permanently,
-irrevocably and unconditionally waives, abandons, and surrenders all of
-Affirmer's Copyright and Related Rights and associated claims and causes
-of action, whether now known or unknown (including existing as well as
-future claims and causes of action), in the Work (i) in all territories
-worldwide, (ii) for the maximum duration provided by applicable law or
-treaty (including future time extensions), (iii) in any current or future
-medium and for any number of copies, and (iv) for any purpose whatsoever,
-including without limitation commercial, advertising or promotional
-purposes (the "Waiver"). Affirmer makes the Waiver for the benefit of each
-member of the public at large and to the detriment of Affirmer's heirs and
-successors, fully intending that such Waiver shall not be subject to
-revocation, rescission, cancellation, termination, or any other legal or
-equitable action to disrupt the quiet enjoyment of the Work by the public
-as contemplated by Affirmer's express Statement of Purpose.
+   * Is specifically designed or intended to operate with the Mod;
+   * Contains meaningful original content or functionality;
+   * Does not include a modified or redistributed copy of the Mod; and
+   * Does not function as a substantially complete replacement for the Mod.
 
-3. Public License Fallback. Should any part of the Waiver for any reason
-be judged legally invalid or ineffective under applicable law, then the
-Waiver shall be preserved to the maximum extent permitted taking into
-account Affirmer's express Statement of Purpose. In addition, to the
-extent the Waiver is so judged Affirmer hereby grants to each affected
-person a royalty-free, non transferable, non sublicensable, non exclusive,
-irrevocable and unconditional license to exercise Affirmer's Copyright and
-Related Rights in the Work (i) in all territories worldwide, (ii) for the
-maximum duration provided by applicable law or treaty (including future
-time extensions), (iii) in any current or future medium and for any number
-of copies, and (iv) for any purpose whatsoever, including without
-limitation commercial, advertising or promotional purposes (the
-"License"). The License shall be deemed effective as of the date CC0 was
-applied by Affirmer to the Work. Should any part of the License for any
-reason be judged legally invalid or ineffective under applicable law, such
-partial invalidity or ineffectiveness shall not invalidate the remainder
-of the License, and in such case Affirmer hereby affirms that he or she
-will not (i) exercise any of his or her remaining Copyright and Related
-Rights in the Work or (ii) assert any associated claims and causes of
-action with respect to the Work, in either case contrary to Affirmer's
-express Statement of Purpose.
+4. **“Modified Version”** means any copy of the Mod that has been changed, adapted, translated, extended, reduced, patched, combined, or otherwise modified.
 
-4. Limitations and Disclaimers.
+5. **“Contribution”** means code, documentation, assets, or other original material intentionally submitted to the official project for possible inclusion in the Mod, including through a pull request or another contribution channel designated by the Copyright Holder.
 
- a. No trademark or patent rights held by Affirmer are waived, abandoned,
-    surrendered, licensed or otherwise affected by this document.
- b. Affirmer offers the Work as-is and makes no representations or
-    warranties of any kind concerning the Work, express, implied,
-    statutory or otherwise, including without limitation warranties of
-    title, merchantability, fitness for a particular purpose, non
-    infringement, or the absence of latent or other defects, accuracy, or
-    the present or absence of errors, whether or not discoverable, all to
-    the greatest extent permissible under applicable law.
- c. Affirmer disclaims responsibility for clearing rights of other persons
-    that may apply to the Work or any use thereof, including without
-    limitation any person's Copyright and Related Rights in the Work.
-    Further, Affirmer disclaims responsibility for obtaining any necessary
-    consents, permissions or other rights required for any use of the
-    Work.
- d. Affirmer understands and acknowledges that Creative Commons is not a
-    party to this document and has no duty or obligation with respect to
-    this CC0 or use of the Work.
+6. **“Official Distribution Source”** means a website, repository, launcher, platform page, or other location expressly identified by the Copyright Holder as an authorized source for downloading the Mod.
+
+7. **“Third-Party Material”** means any code, asset, library, game content, trademark, or other material owned or licensed by someone other than the Copyright Holder.
+
+## 2. Scope of This License
+
+This license applies only to original material for which the Copyright Holder has authority to grant the permissions stated in this license.
+
+Third-Party Material is governed by its own applicable license or terms. Where a specific file or component contains a separate license notice, that separate notice controls that file or component.
+
+This license does not grant any rights in Minecraft, Mojang Studios, Microsoft, or any other third-party product, service, code, asset, name, logo, or trademark.
+
+General ideas, concepts, methods, gameplay mechanics, and functionality are not licensed as exclusive property under this document except to the extent that applicable law protects their particular expression in the Mod.
+
+## 3. Grant of Permission
+
+Subject to compliance with this license, the Copyright Holder grants each recipient a limited, worldwide, non-exclusive, and non-transferable permission to:
+
+1. Download, install, and use the Mod for personal gameplay.
+
+2. Use the Mod on a privately or commercially operated Minecraft server, provided that:
+
+   * Access to the Mod itself is not sold;
+   * The Mod is not redistributed except as expressly permitted by this license; and
+   * The server otherwise complies with applicable Minecraft terms and usage guidelines.
+
+3. Create and distribute an Addon that complies with Section 6.
+
+4. Copy, fork, and modify the Mod solely for:
+
+   * Private and non-distributed use;
+   * Preparing a Contribution for submission to the official project; or
+   * Developing and testing an Addon permitted under this license.
+
+5. Create and monetize videos, livestreams, reviews, tutorials, screenshots, and similar media that feature or discuss the Mod, provided that the media does not distribute the Mod or reproduce substantial portions of its source code or assets.
+
+6. Make reasonable private backup copies for personal recovery purposes.
+
+No rights are granted except those expressly stated in this license.
+
+## 4. Distribution Restrictions
+
+Except where this license expressly permits otherwise, you may not do any of the following without prior permission from the Copyright Holder in text form:
+
+1. Reupload, publish, sublicense, mirror, redistribute, or otherwise make the Mod available to another person, whether modified or unmodified.
+
+2. Distribute a Modified Version, fork, or derivative version of the Mod as a standalone product, bundled product, or replacement for the original Mod.
+
+3. Distribute a patch or patch bundle containing protected portions of the Mod.
+
+4. Sell, rent, license for payment, or otherwise commercially distribute the Mod or a Modified Version.
+
+5. Include the Mod or a Modified Version in:
+
+   * A paid download;
+   * A paid modpack;
+   * A subscription;
+   * A membership benefit;
+   * A supporter or Patreon reward;
+   * An early-access benefit;
+   * A donor-only release; or
+   * Any other product or service for which payment is required to obtain the Mod.
+
+6. Charge users specifically for downloading, accessing, receiving, or using the Mod or a Modified Version.
+
+7. Include the Mod in a free modpack unless:
+
+   * The Copyright Holder has expressly authorized that modpack; or
+   * The modpack directs users to download the Mod from an Official Distribution Source without redistributing the Mod.
+
+8. Use the Mod, its source code, or its assets in a manner that falsely suggests endorsement, authorization, partnership, sponsorship, or affiliation with the Copyright Holder.
+
+9. Remove, hide, obscure, alter, or misrepresent any copyright, authorship, attribution, or license notice included with the Mod.
+
+10. Claim authorship or ownership of the Mod, its original source code, or its original assets.
+
+11. Use an identical or confusingly similar project name, logo, package name, mod identifier, or branding in a manner likely to cause users to believe that another project is the Mod or an official VanillaSquared product.
+
+12. Use the Mod as the primary content of a commercial hosting package, one-click installer, or similar service without permission from the Copyright Holder.
+
+A hosting provider may install a lawful copy supplied by its customer and may temporarily process or store that copy as technically necessary to provide private hosting services. This exception does not permit the provider to publicly mirror, bundle, advertise, or independently distribute the Mod.
+
+Voluntary donations are permitted only where payment is not required or rewarded with access to:
+
+* The Mod;
+* A special or exclusive build;
+* Early access;
+* Exclusive features;
+* Faster availability; or
+* Any other benefit involving access to the Mod.
+
+Charging for genuine installation, configuration, or technical-support services is permitted only where the customer obtains the Mod separately from an Official Distribution Source and the service provider does not redistribute or sell the Mod.
+
+## 5. Private and Organizational Use
+
+A lawful user may temporarily provide a copy of the Mod to an employee, contractor, server administrator, or hosting provider only where:
+
+1. Access is reasonably necessary to install, maintain, test, or operate the user’s own authorized instance;
+
+2. The recipient does not retain or use the copy for another purpose;
+
+3. The copy is not made publicly available; and
+
+4. The user takes reasonable steps to ensure compliance with this license.
+
+This section does not permit distribution to customers, members, players, or the general public.
+
+## 6. Addons
+
+An Addon may be distributed only if it:
+
+1. Contains meaningful original functionality or content;
+
+2. Is specifically designed or clearly intended to operate with the original Mod;
+
+3. Remains a separate package from the Mod;
+
+4. Does not contain the Mod, a Modified Version, or copied portions of the Mod’s source code or assets, except for material that the Copyright Holder has expressly identified as redistributable;
+
+5. Does not function as a substantially complete replacement for the Mod;
+
+6. Does not bypass access controls, license checks, attribution notices, or other technical measures used by the Mod;
+
+7. Does not use VanillaSquared branding in a manner that could imply that the Addon is official, endorsed, or maintained by the Copyright Holder; and
+
+8. Clearly and prominently states on its download page and in its documentation:
+
+   > This is an unofficial addon and is not endorsed by or affiliated with VanillaSquared.
+
+An Addon may interact with public interfaces, documented APIs, events, configuration formats, or compatibility mechanisms exposed by the Mod.
+
+This license does not grant general permission to copy implementation code merely because that code would make Addon development easier.
+
+Any code, template, interface file, or asset approved for redistribution must be expressly identified as redistributable by the Copyright Holder.
+
+Nothing in this license restricts rights that cannot legally be excluded, including mandatory rights relating to interoperability.
+
+## 7. Contributions
+
+A person submitting a Contribution confirms, to the best of their knowledge, that:
+
+1. They created the Contribution or otherwise have authority to submit and license it;
+
+2. The Contribution does not knowingly contain material copied in violation of another person’s rights;
+
+3. Any Third-Party Material included in the Contribution is clearly identified together with its applicable license; and
+
+4. Submission is intentional and is made for possible inclusion in the official project.
+
+Unless otherwise agreed in text form, submitting a Contribution grants the Copyright Holder a perpetual, worldwide, irrevocable, royalty-free, transferable, and sublicensable license to:
+
+* Use;
+* Reproduce;
+* Modify;
+* Adapt;
+* Combine;
+* Publish;
+* Distribute;
+* Sublicense; and
+* Relicense
+
+the Contribution as part of the Mod, related project materials, and future versions of the project.
+
+The contributor retains any copyright they hold in their original Contribution.
+
+This section does not transfer personal authorship rights that cannot legally be transferred or waived.
+
+A casual suggestion, bug report, feature request, or general idea that does not contain submitted code or original creative material is not treated as a licensed Contribution under this section.
+
+Every contributor is responsible for ensuring that they have the legal authority and any required permission to submit their Contribution.
+
+## 8. Ownership
+
+Copyright in the original portions of the Mod remains with the Copyright Holder and any other specifically identified rights holders.
+
+This license grants limited permissions. It does not transfer ownership or assign intellectual-property rights to users.
+
+Original material created independently for an Addon remains the property of its respective creator, provided that it does not incorporate protected material from the Mod beyond what this license permits.
+
+Possession of a copy of the Mod does not give the recipient ownership of its copyright or permission to distribute it.
+
+## 9. Branding and Non-Affiliation
+
+VanillaSquared is an unofficial project.
+
+The Mod and its Copyright Holder are not affiliated with, sponsored by, authorized by, or endorsed by Mojang Studios or Microsoft.
+
+Minecraft and related names, logos, and assets belong to their respective owners.
+
+Use of the Mod must also comply with all applicable Minecraft end-user terms, usage guidelines, platform rules, and third-party licenses.
+
+This license cannot grant permission for conduct prohibited by a third party whose rights are involved.
+
+Nothing in this license grants permission to use the VanillaSquared name, logo, or other distinctive branding except as reasonably necessary to truthfully identify compatibility with the Mod.
+
+## 10. License Versions and Project Releases
+
+The version of this license included with a particular release of the Mod governs that release.
+
+A later version of this license does not automatically replace the terms applicable to an earlier release.
+
+Unless the Copyright Holder expressly states otherwise, users may not choose to apply a different version of the BLOB License to a release.
+
+The Copyright Holder may publish future releases under amended terms.
+
+New terms apply only to releases distributed under those terms and do not retroactively alter permissions already granted for earlier releases.
+
+## 11. Duration and Termination
+
+The permissions granted by this license continue for the applicable copyright term unless terminated under this section.
+
+Permissions automatically terminate for a user who materially violates this license.
+
+For a violation that can reasonably be corrected, permissions will be provisionally reinstated if the user:
+
+1. Stops the violation;
+
+2. Corrects it within 30 days after discovering it or receiving notice; and
+
+3. Takes reasonable steps to prevent it from recurring.
+
+The Copyright Holder may permanently deny reinstatement for deliberate, repeated, fraudulent, or harmful violations.
+
+Termination applies only to the violating person or entity. It does not automatically terminate permissions previously granted to unrelated compliant users.
+
+After termination, the violating user must:
+
+1. Stop copying, modifying, and distributing the Mod; and
+
+2. Remove unauthorized publicly distributed copies under their control.
+
+Termination does not require deletion of copies that must be retained by law or exist solely in inaccessible routine backups, provided that those copies are not restored or used except as legally required.
+
+Sections concerning ownership, Contributions, disclaimers, liability, governing law, and violations occurring before termination survive termination.
+
+## 12. No Warranty
+
+The Mod is provided free of charge on an **“as is”** and **“as available”** basis.
+
+To the extent permitted by applicable law, no warranties or conditions are given, whether express, implied, or statutory, including warranties of:
+
+* Merchantability;
+* Fitness for a particular purpose;
+* Compatibility;
+* Availability;
+* Title;
+* Non-infringement; or
+* Error-free operation.
+
+The Mod may contain defects and may be incompatible with other software, game versions, devices, servers, or saved data.
+
+Mandatory statutory rights that cannot legally be excluded remain unaffected.
+
+## 13. Limitation of Liability
+
+Nothing in this license excludes or limits liability where exclusion or limitation is prohibited by applicable law.
+
+In particular, nothing in this license excludes or limits liability for:
+
+1. Intentional misconduct;
+
+2. Fraudulent concealment;
+
+3. Injury to life, body, or health where liability cannot lawfully be excluded;
+
+4. Gross negligence where liability cannot lawfully be excluded; or
+
+5. Liability arising under mandatory product-liability law.
+
+For ordinary negligence, the Copyright Holder is liable only for the breach of an essential contractual obligation whose performance is necessary for the proper execution of the agreement and on which the user could reasonably rely.
+
+Where liability for ordinary negligence exists, it is limited, to the extent legally permitted, to the type of damage that was reasonably foreseeable when the license relationship was formed.
+
+Subject to the mandatory exceptions above, the Copyright Holder is not liable for:
+
+* Indirect or consequential losses;
+* Loss of data;
+* Loss of profits;
+* Service interruptions;
+* Incompatibility;
+* Corrupted saved games; or
+* Damage resulting from installation, modification, or use of the Mod.
+
+Users should create appropriate backups before installing or updating the Mod.
+
+## 14. Mandatory Legal Rights
+
+Nothing in this license restricts rights, defenses, limitations, or exceptions that cannot lawfully be excluded or limited under applicable law.
+
+Where a provision conflicts with a mandatory legal right, the mandatory legal right controls only to the extent of that conflict.
+
+## 15. No Waiver
+
+A failure or delay by the Copyright Holder to enforce a provision does not waive that provision or the right to enforce it later.
+
+A waiver concerning one violation does not waive a later or different violation.
+
+## 16. Severability
+
+If a provision of this license is invalid or unenforceable, the remaining provisions remain effective to the extent legally possible.
+
+The invalid or unenforceable provision will not be treated as granting broader rights than the Copyright Holder could lawfully and validly grant.
+
+Nothing in this section requires a court to rewrite an invalid provision where applicable law does not permit such rewriting.
+
+## 17. Additional Permission
+
+Any use not expressly permitted by this license requires prior permission from the Copyright Holder in text form.
+
+Permission granted for one person, project, version, platform, or use does not constitute permission for another person, project, version, platform, or use.
+
+Additional permission may be subject to separate conditions and is effective only when issued by the Copyright Holder or an expressly authorized representative.
+
+## 18. Notices and Permissions
+
+Requests for permission should be sent through an official contact method published by the Copyright Holder on an Official Distribution Source.
+
+Permission is valid only where the message clearly identifies:
+
+* The person receiving permission;
+* The material or release covered;
+* The permitted use; and
+* Any applicable conditions.
+
+Public statements, silence, failure to enforce, or permission granted to another person do not constitute permission.
+
+## 19. Governing Law
+
+To the extent legally permitted, this license is governed by the laws of the Federal Republic of Germany, excluding rules that would require the application of another jurisdiction’s law.
+
+Mandatory consumer-protection, jurisdiction, and conflict-of-laws rules remain unaffected.
+
+Nothing in this section deprives a consumer of protections that cannot lawfully be waived.
+
+## 20. Entire Terms
+
+This license and any valid additional permission issued under Section 17 contain the terms granted by the Copyright Holder concerning the covered release.
+
+Informal summaries, descriptions, frequently asked questions, and public comments are provided for convenience and do not modify this license unless they expressly grant additional permission and satisfy Section 18.
+
+## 21. Acceptance
+
+By copying, modifying, distributing, or otherwise exercising a permission granted only by this license, you acknowledge that the permission is subject to the conditions of this license.
+
+If you do not accept or cannot comply with these conditions, you may not copy, modify, distribute, or exercise other rights reserved to the Copyright Holder.
+
+This section does not limit any rights that applicable law grants independently of this license.
