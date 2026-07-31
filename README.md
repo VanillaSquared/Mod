@@ -13,24 +13,23 @@
   <img alt="Java" src="https://img.shields.io/badge/Java-%3E%3D25-red?style=flat-square">
 </p>
 
+### [Official Bluesky](https://bsky.app/profile/painterflow11.bsky.social)
+### [Join our Discord](https://discord.gg/pppHybq9xT)
 ## Overview
 
 Vanilla² is a Minecraft Fabric mod that modernizes combat, enchanting, and item progression without replacing the vanilla identity of the game. It rebalances weapon and armor behavior, extends vanilla combat math, adds a recipe-driven enchanting system, introduces new special enchantments, and improves several combat quality-of-life interactions on both server and client.
 
 ## Features
 
-- Rebalances sword, axe, spear/trident, mace, shield, fishing rod, armor, tool, and weapon behavior.
+- Rebalances sword, axe, spear, trident, mace, shield, fishing rod, armor, tool, and weapon behavior.
 - Expands armor, protection, magic protection, mace protection, spear protection, and dripstone protection handling beyond vanilla limits.
 - Updates combat damage calculations so higher armor and absorb values continue to scale correctly.
 - Adds new attributes and damage types for expanded combat interactions.
 - Changes item durability and combat stats by material for tools, weapons, armor, and fishing rods.
-- Updates shield blocking behavior through modern block-attack components.
 - Changes potion stack sizes.
 - Lets fishing rods work as combat tools with hook damage and enchantment integration.
 - Lets sword targeting pass through configured blocks such as grass and flowers.
-- Improves offhand interaction priority for fishing rod combat cases.
-- Extends the armor HUD so armor values above 20 render with additional rows.
-- Adds a custom Sulfur Cube entity variant/behavior and related loot/food items.
+- Improves offhand interaction priority for fishing rod combat cases.~~~~
 
 ## Enchanting overhaul
 
@@ -41,8 +40,7 @@ Vanilla² replaces much of vanilla enchanting with a recipe-based enchantment ta
 - Adds an enchanting recipe book UI and server/client synchronization for known recipes and selected recipes.
 - Adds enchantment slot categories such as Special, Damage, Secondary, Defense, Utility, and Curse.
 - Supports enchantment profiles so an enchantment can have different behavior depending on the selected slot/profile.
-- Removes normal enchanted book behavior from creative/trading flows where needed for the new system.
-- Updates anvil, villager trade, command, loot, and recipe-book behavior to support the new enchantment model.
+- Rebalances almost all vanilla enchantments(+channeling got a rework).
 
 ## Enchantments
 
@@ -56,22 +54,11 @@ Vanilla² changes many vanilla enchantments and adds new ones.
 - **Swirling** - spin with your weapon and repeatedly strike nearby enemies.
 - **Void Strike** - applies the Voided effect to targets.
 
-### Reworked/enhanced vanilla enchantments
-
-Vanilla² includes updated data and behavior for many vanilla enchantments, including protection variants, Sharpness, Smite, Bane of Arthropods, Fire Aspect, Sweeping Edge, Looting, Efficiency, Silk Touch, Unbreaking, Fortune, Mending, Infinity, Punch, Power, Flame, Piercing, Multishot, Quick Charge, Loyalty, Riptide, Channeling, Impaling, Lure, Luck of the Sea, Depth Strider, Frost Walker, Soul Speed, Swift Sneak, Breach, Density, Wind Burst, curses, and more.
-
-## Status effects and combat states
-
-- Adds **Voided**, a custom effect used by Void Strike and related damage logic.
-- Adds lunging and swirling combat states for special enchantment movement/attack behavior.
-- Adds cooldown and hotkey support for special enchantments.
-- Adds custom death messages for fished, eviscerate, and swirled damage.
-
 ## Requirements
 
 - Minecraft 26.2.
 - Fabric Loader 0.19.3 or newer.
-- Fabric API 0.152.2+26.2 or compatible.
+- Fabric API 0.154.2+26.2 or compatible.
 - Java 25 or newer.
 
 ## Installation
