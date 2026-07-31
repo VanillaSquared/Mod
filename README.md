@@ -90,3 +90,5 @@ Run a development client with the mod loaded.
 
 Build artifacts are written to `build/libs/`.
 
+## Notes
+[pxlarified](https://github.com/pxlarified) is not an active developer of this project. While I occasionally contribute to the website and mod, most of the work and ideas come from PainterFlow. He is responsible for the majority of the concepts and development associated with the project, and I do not want to misrepresent that by claiming ownership or implying that most of the work is mine.
