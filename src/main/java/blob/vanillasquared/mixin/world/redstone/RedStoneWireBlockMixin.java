@@ -1,8 +1,10 @@
 package blob.vanillasquared.mixin.world.redstone;
 
 import blob.vanillasquared.main.world.redstone.VSQDirectionalRedstoneTransmission;
+import blob.vanillasquared.main.world.redstone.VSQEntityRedstonePower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RedStoneWireBlock;
@@ -13,11 +15,19 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(RedStoneWireBlock.class)
 public abstract class RedStoneWireBlockMixin {
     @Shadow
     private void checkCornerChangeAt(Level level, BlockPos pos) {
+    }
+
+    @Inject(method = "getBlockSignal", at = @At("RETURN"), cancellable = true)
+    private void vsq$getEntitySignalAtWire(Level level, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+        if (level instanceof ServerLevel serverLevel) {
+            cir.setReturnValue(Math.max(cir.getReturnValue(), VSQEntityRedstonePower.getSignal(serverLevel, pos)));
+        }
     }
 
     @Redirect(
