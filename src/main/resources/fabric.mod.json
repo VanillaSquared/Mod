@@ -49,9 +49,9 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"vanilla-squared.modrinth": "https://modrinth.com/mod/vsq",
-				"vanilla-squared.discord": "https://discord.gg/NrPZQbwc8Y",
-				"vanilla-squared.bluesky": "https://bsky.app/profile/painterflow11.bsky.social"
+				"vsq.modrinth": "https://modrinth.com/mod/vsq",
+				"vsq.discord": "https://discord.gg/NrPZQbwc8Y",
+				"vsq.bluesky": "https://bsky.app/profile/painterflow11.bsky.social"
 			},
 			"badges": [ ],
 			"parent": {
