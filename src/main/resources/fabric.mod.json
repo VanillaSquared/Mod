@@ -9,8 +9,8 @@
 		"@the_jan_craft"
 	],
 	"contact": {
-		"sources": "https://github.com/mizius-studios/vanilla-squared",
-		"issues": "https://discord.gg/pppHybq9xT"
+		"sources": "https://github.com/VanillaSquared/Mod",
+		"issues": "https://vanillasquared.up.railway.app/bugs"
 	},
 	"license": "LicenseRef-BLOB-1.3",
 	"icon": "assets/vsq/vsq.png",
