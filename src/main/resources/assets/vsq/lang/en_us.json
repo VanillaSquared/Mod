@@ -1,7 +1,7 @@
 {
-  "vanilla-squared.bluesky": "Bluesky",
-  "vanilla-squared.discord": "Discord",
-  "vanilla-squared.modrinth": "Modrinth",
+  "vsq.bluesky": "Bluesky",
+  "vsq.discord": "Discord",
+  "vsq.modrinth": "Modrinth",
   "vsq.gui.experiments.vsq": "VSQ Preview",
   "vsq.gui.experiments.vsq.description": "Test out experimental features.",
   "vsq.gui.container.enchantment_table.xp": "%s",
