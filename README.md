@@ -13,7 +13,7 @@
   <img alt="Java" src="https://img.shields.io/badge/Java-%3E%3D25-red?style=flat-square">
 </p>
 
-### [Our official website](https://vanillasquared.up.railway.app)
+### [Our official website](https://vanillasquared.vercel.app/)
 ### [Official Bluesky](https://bsky.app/profile/painterflow11.bsky.social)
 ### [Join our Discord](https://discord.gg/NrPZQbwc8Y)
 ## Overview
