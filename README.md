@@ -4,7 +4,7 @@
   <br>
 </h1>
 
-<h4 align="center">A Fabric combat and progression overhaul that keeps Minecraft close to vanilla while expanding weapons, armor, enchantments, and combat utility.</h4>
+<h4 align="center">This Mod overhauls many of Minecrafts outdated system, like the combat system and enchanting system. On top of that the mod also adds a few other features.</h4>
 
 <p align="center">
   <img alt="Minecraft" src="https://img.shields.io/badge/Minecraft-26.2-brightgreen?style=flat-square">
@@ -13,23 +13,24 @@
   <img alt="Java" src="https://img.shields.io/badge/Java-%3E%3D25-red?style=flat-square">
 </p>
 
+### [Our official website](https://vanillasquared.up.railway.app)
 ### [Official Bluesky](https://bsky.app/profile/painterflow11.bsky.social)
-### [Join our Discord](https://discord.gg/pppHybq9xT)
+### [Join our Discord](https://discord.gg/NrPZQbwc8Y)
 ## Overview
 
-Vanilla² is a Minecraft Fabric mod that modernizes combat, enchanting, and item progression without replacing the vanilla identity of the game. It rebalances weapon and armor behavior, extends vanilla combat math, adds a recipe-driven enchanting system, introduces new special enchantments, and improves several combat quality-of-life interactions on both server and client.
+Vanilla² focuses on adding more Vanilla-style content to the game. Currently vsq overhauls the enchanting system and adds new enchantments. There are also a few other minor features like Sulfur Goo and a rebalance of most weapons, tools and armor.
 
 ## Features
 
 - Rebalances sword, axe, spear, trident, mace, shield, fishing rod, armor, tool, and weapon behavior.
 - Expands armor, protection, magic protection, mace protection, spear protection, and dripstone protection handling beyond vanilla limits.
 - Updates combat damage calculations so higher armor and absorb values continue to scale correctly.
-- Adds new attributes and damage types for expanded combat interactions.
+- Adds new attributes.
 - Changes item durability and combat stats by material for tools, weapons, armor, and fishing rods.
 - Changes potion stack sizes.
 - Lets fishing rods work as combat tools with hook damage and enchantment integration.
 - Lets sword targeting pass through configured blocks such as grass and flowers.
-- Improves offhand interaction priority for fishing rod combat cases.~~~~
+- Improves offhand interaction priority for fishing rod combat cases.
 
 ## Enchanting overhaul
 
@@ -48,11 +49,10 @@ Vanilla² changes many vanilla enchantments and adds new ones.
 
 ### New enchantments
 
-- **Dash** - burst forward and strike entities caught in the lunge.
-- **Fractured** - mine multiple blocks asynchronously through manual clicks.
-- **Ruthless** - greatly increases attack damage at a self-damage cost.
-- **Swirling** - spin with your weapon and repeatedly strike nearby enemies.
-- **Void Strike** - applies the Voided effect to targets.
+- **Dash** - burst forward and dash through enemies in your path.
+- **Ruthless** - greatly increases attack damage but with each hit you also take damage.
+- **Swirling** - spin with your weapon and repeatedly strike nearby enemies (AOE effect).
+- **Void Strike** - applies the Voided effect to targets which multiplies the damage they get over time.
 
 ## Requirements
 
@@ -66,13 +66,12 @@ Vanilla² changes many vanilla enchantments and adds new ones.
 1. Download the latest Vanilla² jar from the releases page.
 2. Install Fabric Loader and Fabric API for the supported Minecraft version.
 3. Place the Vanilla² `.jar` file in your `mods` folder.
-4. Restart Minecraft or your server.
+4. Restart/Launch Minecraft.
 
 ## Compatibility notes
 
-- Vanilla² is a gameplay overhaul and intentionally changes vanilla combat and enchanting behavior.
-- The mod declares an incompatibility with ViaFabricPlus.
-- Client resources such as HUD changes are client-side, while combat and enchanting rules are server-authoritative.
+- Known to be incompatible with ViaFabricPlus.
+- Probably some other mods, I did not yet focus mod compatibility.
 
 ## Development
 
