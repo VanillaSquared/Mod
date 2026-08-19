@@ -10,8 +10,8 @@
 	],
 	"contact": {
 		"sources": "https://github.com/VanillaSquared/Mod",
-		"issues": "https://vanillasquared.up.railway.app/bugs",
-		"homepage": "https://vanillasquared.up.railway.app"
+		"issues": "https://vanillasquared.vercel.app/bugs",
+		"homepage": "https://vanillasquared.vercel.app/"
 	},
 	"license": "LicenseRef-BLOB-1.3",
 	"icon": "assets/vsq/vsq.png",
